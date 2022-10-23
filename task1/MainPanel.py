@@ -24,8 +24,27 @@ class MainPanel:
 
         # ttk.Separator(self.win, orient='horizontal').grid(row=1, column=0)  # place(x=720, y=725)
 
-        # self.effective_mass = tk.Spinbox(self.win, width=7)
-        # self.effective_mass.place(x=760, y=50)
+        font_size = 20
+
+        tk.Label(self.panel_canvas, text='Эффективная масса', font=('Arial', font_size)).grid(row=0, column=0)
+        self.effective_mass = tk.Spinbox(self.panel_canvas, width=7, font=font_size)
+        self.effective_mass.grid(row=0, column=1)
+
+        tk.Label(self.panel_canvas, text='Ширина ямы', font=('Arial', font_size)).grid(row=1, column=0)
+        self.hole_width = tk.Spinbox(self.panel_canvas, width=7, font=font_size)
+        self.hole_width.grid(row=1, column=1)
+
+        tk.Label(self.panel_canvas, text='Глубина ямы', font=('Arial', font_size)).grid(row=2, column=0)
+        self.hole_depth = tk.Spinbox(self.panel_canvas, width=7, font=font_size)
+        self.hole_depth.grid(row=2, column=1)
+
+        tk.Label(self.panel_canvas, text='Расстояние между ямами', font=('Arial', font_size)).grid(row=3, column=0)
+        self.holes_dist = tk.Spinbox(self.panel_canvas, width=7, font=font_size)
+        self.holes_dist.grid(row=3, column=1)
+
+        tk.Label(self.panel_canvas, text='Уровень энергии', font=('Arial', font_size)).grid(row=4, column=0)
+        self.energy_level = tk.Label(self.panel_canvas, text='', font=('Arial', font_size), width=7)
+        self.energy_level.grid(row=5, column=1)
 
 
 
