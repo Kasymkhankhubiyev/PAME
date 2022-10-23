@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from task1 import MainPanel as mp
 
 
 def on_closing(win: tk.Tk) -> None:
@@ -24,8 +25,8 @@ def create_window() -> tk.Tk:
     w = window.winfo_screenwidth()
     h = window.winfo_screenheight()
     window.geometry("{}x{}".format(w-10, h-1))
-    icon = tk.PhotoImage(file='logo.png')
-    window.iconphoto(False, icon)
+    # icon = tk.PhotoImage(file='logo.png')
+    # window.iconphoto(False, icon)
     return window
 
 
@@ -33,3 +34,8 @@ def run() -> None:
 
     win = create_window()
     win.protocol('WM_DELETE_WINDOW', lambda window=win: on_closing(window))
+
+    main_panel = mp.MainPanel(window=win)
+    main_panel.draw_window()
+
+    win.mainloop()
