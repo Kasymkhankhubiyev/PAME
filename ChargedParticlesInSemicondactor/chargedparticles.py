@@ -63,13 +63,10 @@ def _count_Q(n: int, p: int, Nd: int) -> int:
 
 
 def calc_n(nc: Nparticle, Efpl: float, Efneg: float, t: Kelvin):
-    k = 1.38 * 10 ** -23  # J/K
+    # k = 1.38 * 10 ** -23  # J/K
+    k = 1.38e-16  # эрг/К
 
-    print(nc.body * 10**nc.power)
-    print(1.6e-19 * (Efpl + Efneg)/(k * t))
-
-    n = nc.body * 10**nc.power * np.exp(-1.6e-19 * (Efpl + Efneg)/(k * t))
-
+    n = nc.body * 10**nc.power * np.exp(-1. * (Efpl + Efneg)/(k * 6.24e11 * t))
     return n
 
 

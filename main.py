@@ -9,5 +9,5 @@ if __name__ == '__main__':
 
     pl = (0.57 + 1.12)/2.
 
-    n = calc_n(nc, pl, 1.12, 300)
+    n = calc_n(nc, pl, 1.12, 300.)
     print(n)
