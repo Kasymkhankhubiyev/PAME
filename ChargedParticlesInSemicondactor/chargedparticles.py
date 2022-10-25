@@ -80,7 +80,7 @@ def calc_n(nc: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
     return Nparticle(name='n', body=body, power=power)
 
 
-def _calc_p(nd: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
+def calc_p(nd: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
     k = 1.38e-16  # эрг/К
 
     Nd = (nd.body * 10 ** nd.power)
