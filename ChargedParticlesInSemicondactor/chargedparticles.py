@@ -38,6 +38,7 @@ Nd = float
 
 
 class Charge(NamedTuple):
+    name: str
     n: int
     p: int
     Nd: int
@@ -62,12 +63,34 @@ def _count_Q(n: int, p: int, Nd: int) -> int:
     return Q
 
 
-def calc_n(nc: Nparticle, Efpl: float, Efneg: float, t: Kelvin):
+def calc_n(nc: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
     # k = 1.38 * 10 ** -23  # J/K
     k = 1.38e-16  # эрг/К
 
-    n = nc.body * 10**nc.power * np.exp(-1. * (Efpl + Efneg)/(k * 6.24e11 * t))
-    return n
+    Nc = (nc.body * 10**nc.power)
+    expl = np.exp((Efpl - Efneg)/(k * 6.24e11 * t))
+
+    n = Nc * expl
+
+    power = int(np.log10(n))
+    body = float(format(n / 10 ** round(np.log10(n)), '.1f'))
+    # print(f' n = {n}')
+    # print(f'body = {body}')
+
+    return Nparticle(name='n', body=body, power=power)
+
+
+def _calc_p(nd: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
+    k = 1.38e-16  # эрг/К
+
+    Nd = (nd.body * 10 ** nd.power)
+    expl = np.exp((Efpl - Efneg) / (k * 6.24e11 * t))
+
+    p = Nd * expl
+    power = int(np.log10(p))
+    body = float(format(p / 10 ** round(np.log10(p)), '.1f'))
+
+    return Nparticle(name='p', body=body, power=power)
 
 
 def _calc_Nc(me: me_effective, t: Kelvin) -> Nparticle:
@@ -79,7 +102,7 @@ def _calc_Nc(me: me_effective, t: Kelvin) -> Nparticle:
 
     Nc /= 10**6  # 1/cm^3
 
-    return Nparticle(name='Nc', body=float(format(Nc/ 10 ** round(np.log10(Nc)-1), '.1f')),
+    return Nparticle(name='Nc', body=float(format(Nc/ 10 ** round(np.log10(Nc)), '.1f')),
                      power=round(np.log10(Nc)))
 
 
