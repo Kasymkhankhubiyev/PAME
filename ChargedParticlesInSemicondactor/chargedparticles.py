@@ -38,19 +38,13 @@ Nd = float
 eV = float
 
 
-class Charge(NamedTuple):
-    name: str
-    n: int
-    p: int
-    Nd: int
-    Nc: int
-    Q: int
-
-
-class Nparticle(NamedTuple):
-    name: str
-    body: float
-    power: int
+class Result(NamedTuple):
+    Ef: float
+    n: float
+    p: float
+    Ndpl: float
+    Q: float
+    ratio: float
 
 
 def _count_Q(n: float, p: float, Nd: float) -> float:
@@ -97,7 +91,7 @@ def calc_p(nv: float, Ef: float, Ev: float, t: Kelvin) -> float:  # Nparticle:
 
     return p  # Nparticle(name='p', body=body, power=power)
 
-def calc_Ndplus(Nd: int, Ef: eV, Eg: eV, t: Kelvin):
+def calc_Ndplus(Nd: float, Ef: eV, Eg: eV, t: Kelvin):
     k = 1.38e-16  # эрг/К
 
     ndpl = Nd / (1. + 0.5 * np.exp((Ef - Eg)/ (k * 6.24e11 * t)))
@@ -131,7 +125,7 @@ def _calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
     # Nparticle(name='Nv', body=float(format(Nv / 10 ** round(np.log10(Nv) - 1), '.1f')), power=round(np.log10(Nv)))
 
 
-def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: int):
+def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
     """
     Расчет делаем методом дихотомии
 
@@ -157,10 +151,10 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
     q = _count_Q(n=n, p=p, Nd=ndpl)
 
 
-    if q/(n + ndpl) < 0.001:
-        return Ef, q/(n + ndpl)
+    if np.abs(q/(p + ndpl)) < 0.001:
+        return Result(Ef=Ef, n=n, p=p, Ndpl=ndpl, Q=q, ratio=(q/(p + ndpl)))
     else:
-        if Efneg - Ef > 0.001:
-            calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
-        if Ef - Efpl > 0.001:
-            calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
+        if q > 0:
+            return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
+        elif q < 0:
+            return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
