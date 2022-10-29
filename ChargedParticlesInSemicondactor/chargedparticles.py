@@ -35,6 +35,7 @@ mh_effective = float
 Kelvin = float
 Nc = float
 Nd = float
+eV = float
 
 
 class Charge(NamedTuple):
@@ -52,48 +53,59 @@ class Nparticle(NamedTuple):
     power: int
 
 
-def _count_Q(n: int, p: int, Nd: int) -> int:
+def _count_Q(n: float, p: float, Nd: float) -> float:
     """
     :param n: кол-во негативных носителей
     :param p: кол-во положительных носителей
     :param Nd: кол-во ионизированных атомов
     :return: Q - заряд полупроводника
     """
-    Q = n + p + Nd
+    Q = n - p - Nd
     return Q
 
 
-def calc_n(nc: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
-    # k = 1.38 * 10 ** -23  # J/K
+def calc_n(nc: float, Ef: float, Ec: float, t: Kelvin) -> float:  # Nparticle:
+    """
+    n = Nc * exp(- (Ec - Ef)/kT)
+    """
     k = 1.38e-16  # эрг/К
 
-    Nc = (nc.body * 10**nc.power)
-    expl = np.exp((Efpl - Efneg)/(k * 6.24e11 * t))
+    Nc = nc  # (nc.body * 10**nc.power)
+    expl = np.exp((Ef - Ec)/(k * 6.24e11 * t))
 
     n = Nc * expl
 
     power = int(np.log10(n))
     body = float(format(n / 10 ** round(np.log10(n)), '.1f'))
-    # print(f' n = {n}')
-    # print(f'body = {body}')
 
-    return Nparticle(name='n', body=body, power=power)
+    return n    # Nparticle(name='n', body=body, power=power)
 
 
-def calc_p(nd: Nparticle, Efpl: float, Efneg: float, t: Kelvin) -> Nparticle:
+def calc_p(nv: float, Ef: float, Ev: float, t: Kelvin) -> float:  # Nparticle:
+    """
+    p = Nv * exp((Ev - Ef)/kT)
+    """
     k = 1.38e-16  # эрг/К
 
-    Nd = (nd.body * 10 ** nd.power)
-    expl = np.exp((Efpl - Efneg) / (k * 6.24e11 * t))
+    Nv = nv  #(nv.body * 10 ** nv.power)
+    expl = np.exp((Ev - Ef) / (k * 6.24e11 * t))
 
-    p = Nd * expl
+    p = Nv * expl
+
     power = int(np.log10(p))
     body = float(format(p / 10 ** round(np.log10(p)), '.1f'))
 
-    return Nparticle(name='p', body=body, power=power)
+    return p  # Nparticle(name='p', body=body, power=power)
+
+def calc_Ndplus(Nd: int, Ef: eV, Eg: eV, t: Kelvin):
+    k = 1.38e-16  # эрг/К
+
+    ndpl = Nd / (1. + 0.5 * np.exp((Ef - Eg)/ (k * 6.24e11 * t)))
+
+    return ndpl
 
 
-def _calc_Nc(me: me_effective, t: Kelvin) -> Nparticle:
+def _calc_Nc(me: me_effective, t: Kelvin) -> float:  # Nparticle:
     k = 1.38 * 10**-23  # J/K
     h = 1.054 * 10**-34  # kg * m /sec^2
     m0 = 9.109 * 10**-31  # kg ~ 0.511MeV
@@ -102,24 +114,53 @@ def _calc_Nc(me: me_effective, t: Kelvin) -> Nparticle:
 
     Nc /= 10**6  # 1/cm^3
 
-    return Nparticle(name='Nc', body=float(format(Nc/ 10 ** round(np.log10(Nc)), '.1f')),
-                     power=round(np.log10(Nc)))
+    return Nc
+    # Nparticle(name='Nc', body=float(format(Nc/ 10 ** round(np.log10(Nc)), '.1f')), power=round(np.log10(Nc)))
 
 
-def _calc_Nd(mh: mh_effective, t: Kelvin) -> Nparticle:
+def _calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
     k = 1.38 * 10 ** -23  # J/K
     h = 1.054 * 10 ** -34  # kg * m /sec^2
     m0 = 9.109 * 10 ** -31  # kg ~ 0.511MeV
 
-    Nd = 2 * ((2 * np.pi * mh * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
+    Nv = 2 * ((2 * np.pi * mh * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
 
-    Nd /= 10 ** 6  # 1/cm^3
+    Nv /= 10 ** 6  # 1/cm^3
 
-    return Nparticle(name='Nd', body=float(format(Nd / 10 ** round(np.log10(Nc) - 1), '.1f')),
-                     power=round(np.log10(Nd)))
+    return Nv
+    # Nparticle(name='Nv', body=float(format(Nv / 10 ** round(np.log10(Nv) - 1), '.1f')), power=round(np.log10(Nv)))
 
 
-def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin):
+def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: int):
+    """
+    Расчет делаем методом дихотомии
+
+    :param me: эффективная масса плотности состояний электронов
+    :param mh: эффективная масса плотности состояний дырок
+    :param t: температура
+    :param Efpl: уровень Ферми совпадает с дном зоны проводимости,
+    все электроны в зоне проводимости, а дырки в валентной
+    :param Efng: уровень Ферми близок к потолку валентной зоны
+    :return:
+    """
+
     nc = _calc_Nc(me, t)
-    # nd = _calc_Nd(mh, t)
-    return nc
+    nv = _calc_Nv(mh, t)
+
+    a, b = Efpl, Efneg
+
+    Ef = (a + b) / 2.
+
+    n = calc_n(nc=nc, Ef=Ef, Ec=Ec, t=t)
+    p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
+    ndpl = calc_Ndplus(Nd=Nd, Ef=Ef, Eg=Ec, t=t)
+    q = _count_Q(n=n, p=p, Nd=ndpl)
+
+
+    if q/(n + ndpl) < 0.001:
+        return Ef, q/(n + ndpl)
+    else:
+        if Efneg - Ef > 0.001:
+            calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
+        if Ef - Efpl > 0.001:
+            calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
