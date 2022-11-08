@@ -14,7 +14,7 @@ Ev - потолок валентной зоны
     n = Nc * exp(- (Ec - Ef)/kT )
     p = Nv * exp(- (Ef - Ev)/kT )
 
-    Получаем Nd+ = Nd/ (1 + 1/2 * exp((Ef - Eg)/kT ))
+    Получаем Nd+ = Nd/ (1 + 1/2 * exp((Ef - Ea)/kT ))
 
  Q = n - p - Nd+ - заряд в материале
 I. Предположим, что Nd+ = 0 -> полупроводник собственный:
@@ -27,6 +27,8 @@ Nd=10^17 -> статистика не вырожденная:
     Ef1 = (Ef+ - Ef-)/2
 
 """
+
+# TODO Jd = Ev+Ea, где Ea - энергия ионизации Ev=0 => Ea = Jd
 
 import numpy as np
 from typing import NamedTuple
@@ -43,12 +45,12 @@ class Result(NamedTuple):
     Ef: float
     n: float
     p: float
-    Ndpl: float
+    Ndneg: float
     Q: float
     ratio: float
 
 
-def _count_Q(n: float, p: float, Nd: float) -> float:
+def _count_Q(n: float, p: float, Na: float) -> float:
     """
     :param n: кол-во негативных носителей
     :param p: кол-во положительных носителей
@@ -56,7 +58,7 @@ def _count_Q(n: float, p: float, Nd: float) -> float:
     :return: Q - заряд полупроводника
     """
 
-    Q = n - p - Nd
+    Q = p - n - Na
     return Q
 
 
@@ -66,15 +68,9 @@ def calc_n(nc: float, Ef: float, Ec: float, t: Kelvin) -> float:  # Nparticle:
     """
     k = 1.38e-16  # эрг/К
 
-    Nc = nc  # (nc.body * 10**nc.power)
     expl = np.exp((Ef - Ec)/(k * 6.24e11 * t))
-
-    n = Nc * expl
-
-    power = int(np.log10(n))
-    body = float(format(n / 10 ** round(np.log10(n)), '.1f'))
-
-    return n    # Nparticle(name='n', body=body, power=power)
+    n = nc * expl
+    return n
 
 
 def calc_p(nv: float, Ef: float, Ev: float, t: Kelvin) -> float:  # Nparticle:
@@ -83,48 +79,36 @@ def calc_p(nv: float, Ef: float, Ev: float, t: Kelvin) -> float:  # Nparticle:
     """
     k = 1.38e-16  # эрг/К
 
-    Nv = nv  #(nv.body * 10 ** nv.power)
     expl = np.exp((Ev - Ef) / (k * 6.24e11 * t))
+    p = nv * expl
+    return p
 
-    p = Nv * expl
 
-    power = int(np.log10(p))
-    body = float(format(p / 10 ** round(np.log10(p)), '.1f'))
-
-    return p  # Nparticle(name='p', body=body, power=power)
-
-def calc_Ndplus(Nd: float, Ef: eV, Eg: eV, t: Kelvin):
+def calc_Naneg(Na: float, Ef: eV, Ea: eV, t: Kelvin):
     k = 1.38e-16  # эрг/К
 
-    ndpl = Nd / (1. + 0.5 * np.exp((Ef - Eg)/(k * 6.24e11 * t)))
-
-    return ndpl
+    naneg = Na / (1. + 4. * np.exp((Ef - Ea)/(k * 6.24e11 * t)))
+    return naneg
 
 
 def _calc_Nc(me: me_effective, t: Kelvin) -> float:  # Nparticle:
-    k = 1.38 * 10**-23  # J/K
-    h = 1.054 * 10**-34  # kg * m /sec^2
-    m0 = 9.109 * 10**-31  # kg ~ 0.511MeV
+    k = 1.38e-023  # J/K
+    h = 1.054e-034  # kg * m /sec^2
+    m0 = 9.109e-031  # kg ~ 0.511MeV
 
     Nc = 2 * ((2 * np.pi * me * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
-
     Nc /= 10**6  # 1/cm^3
-
     return Nc
-    # Nparticle(name='Nc', body=float(format(Nc/ 10 ** round(np.log10(Nc)), '.1f')), power=round(np.log10(Nc)))
 
 
 def _calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
-    k = 1.38 * 10 ** -23  # J/K
-    h = 1.054 * 10 ** -34  # kg * m /sec^2
-    m0 = 9.109 * 10 ** -31  # kg ~ 0.511MeV
+    k = 1.38e-023  # J/K
+    h = 1.054e-034  # kg * m /sec^2
+    m0 = 9.109e-031  # kg ~ 0.511MeV
 
     Nv = 2 * ((2 * np.pi * mh * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
-
     Nv /= 10 ** 6  # 1/cm^3
-
     return Nv
-    # Nparticle(name='Nv', body=float(format(Nv / 10 ** round(np.log10(Nv) - 1), '.1f')), power=round(np.log10(Nv)))
 
 
 def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
@@ -139,6 +123,7 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
     :param Efng: уровень Ферми близок к потолку валентной зоны
     :return:
     """
+    Jd = 0.05
 
     nc = _calc_Nc(me, t)
     nv = _calc_Nv(mh, t)
@@ -149,12 +134,13 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
 
     n = calc_n(nc=nc, Ef=Ef, Ec=Ec, t=t)
     p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
-    ndpl = calc_Ndplus(Nd=Nd, Ef=Ef, Eg=Ec, t=t)
-    q = _count_Q(n=n, p=p, Nd=ndpl)
+    naneg = calc_Naneg(Na=Nd, Ef=Ef, Ea=Jd-Ev, t=t)
+    q = _count_Q(n=n, p=p, Na=naneg)
+    print(q, p)
 
-
-    if np.abs(q/(p + ndpl)) < 0.001:
-        return Result(Ef=Ef, n=n, p=p, Ndpl=ndpl, Q=q, ratio=(q/(p + ndpl)))
+    if np.abs(q/(n + naneg)) < 0.0001:
+        print(f'Na={Nd}     nc={nv}')
+        return Result(Ef=Ef, n=n, p=p, Ndneg=naneg, Q=q, ratio=(q/(n + naneg)))
     else:
         if q > 0:
             return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
