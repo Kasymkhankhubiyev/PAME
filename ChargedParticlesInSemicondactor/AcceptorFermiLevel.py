@@ -130,19 +130,19 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
 
     a, b = Efpl, Efneg
 
-    Ef = (a + b) / 2.
+    Ef = (a + b)*0.5
 
     n = calc_n(nc=nc, Ef=Ef, Ec=Ec, t=t)
     p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
     naneg = calc_Naneg(Na=Nd, Ef=Ef, Ea=Jd-Ev, t=t)
     q = _count_Q(n=n, p=p, Na=naneg)
-    print(q, p)
+
 
     if np.abs(q/(n + naneg)) < 0.0001:
         print(f'Na={Nd}     nc={nv}')
         return Result(Ef=Ef, n=n, p=p, Ndneg=naneg, Q=q, ratio=(q/(n + naneg)))
     else:
-        if q > 0:
+        if q < 0:
             return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
-        elif q < 0:
+        elif q > 0:
             return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
