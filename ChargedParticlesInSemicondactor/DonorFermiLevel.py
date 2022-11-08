@@ -121,6 +121,8 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
     :return:
     """
 
+    #TODO выводить заряды в виде 1e10
+
     Jd = 0.05  # eV
 
     nc = _calc_Nc(me, t)
