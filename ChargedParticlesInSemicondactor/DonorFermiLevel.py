@@ -54,6 +54,7 @@ def _count_Q(n: float, p: float, Nd: float) -> float:
     :param Nd: кол-во ионизированных атомов
     :return: Q - заряд полупроводника
     """
+
     Q = n - p - Nd
     return Q
 
