@@ -57,4 +57,5 @@ class MainPanel:
         self.energy_level = tk.Label(self.panel_canvas, text='', font=('Arial', font_size), width=7)
         self.energy_level.grid(row=5, column=1)
 
-        tk.Button(self.panel_canvas, text='Расчитать', font=('Arial', 20), command=self._calculate)
+        tk.Button(self.panel_canvas, text='Расчитать', font=('Arial', 20), command=self._calculate).grid(
+            row=6, column=0, columnspan=2)
