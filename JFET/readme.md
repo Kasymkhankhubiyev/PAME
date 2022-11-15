@@ -7,7 +7,7 @@ $I_{d}=I{p}(\frac{3U_{d}}{V_{p}} - 2\frac{(U_{d}+U_{g})^\frac{3}{2} - \frac{U_{g
 
 Крутизна:
 
-$g_{m} = \frac{\partial I_{d}}{\partial U_{g}} = $
+$g_{m} = \frac{\partial I_{d}}{\partial U_{g}} = -I_{p}(3\frac{(U_{d}+U_{g})^\frac{1}{2}}{V_{p}^\frac{3}{2}} + \frac{3}{2}\frac{U_{g}^\frac{1}{3}}{V_{p}^\frac{3}{2}})$
 
 Проводимость канала:
 

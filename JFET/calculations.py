@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
+Ip = 0.1 # A ток отсечки
 
 def volt_amper_characteristics() -> None:
 
     def Id(ud: float, vp: float, ug: float):
-        Ip = 0.1  # A ток отсечки
         res = Ip * (3*ud/vp - 2 * ((ud + ug)**1.5)/(vp**1.5) - (ug/vp)**1.5)
         return res
 
@@ -21,9 +21,11 @@ def volt_amper_characteristics() -> None:
     plt.savefig('volt_amper_charact')
 
 
-def g_m():
-    pass
+def g_m(ud: float, vp: float, ug: float):
+    gm = -Ip * (3 * (ud + ug)**0.5/vp**1.5 - 3 * ug**0.5 / vp**1.5)
+    return gm
 
 
-def g_d():
-    pass
+def g_d(ud: float, vp: float, ug: float):
+    gd = Ip * (3/vp - 3 * (ud + ug)**0.5 / vp**1.5)
+    return gd
