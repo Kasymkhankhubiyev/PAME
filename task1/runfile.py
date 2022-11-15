@@ -32,10 +32,13 @@ def create_window() -> tk.Tk:
 
 def run() -> None:
 
-    win = create_window()
-    win.protocol('WM_DELETE_WINDOW', lambda window=win: on_closing(window))
+    # win = create_window()
+    # win.protocol('WM_DELETE_WINDOW', lambda window=win: on_closing(window))
+    #
+    # main_panel = mp.MainPanel(window=win)
+    # main_panel.draw_window()
+    #
+    # win.mainloop()
+    pass
 
-    main_panel = mp.MainPanel(window=win)
-    main_panel.draw_window()
 
-    win.mainloop()
