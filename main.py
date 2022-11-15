@@ -4,6 +4,7 @@ from ChargedParticlesInSemicondactor.GetFaLevel import *
 from SemiconCurrent import CurrentCalculus
 import matplotlib.pyplot as plt
 from task1 import PeriodicPotential as pp
+from task2 import Ge_n_type
 
 
 def calc_Ld()->None:
@@ -66,7 +67,10 @@ if __name__ == '__main__':
 
 
     # рассчет уровня энергии в периодической яме
-    pp.run()
+    # pp.run()
+
+    Ge_n_type.run()
+
 
 
 

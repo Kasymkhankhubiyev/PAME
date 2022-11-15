@@ -108,7 +108,7 @@ def _calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
     return Nv
 
 
-def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
+def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
     """
     Расчет делаем методом дихотомии
 
@@ -123,7 +123,7 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
 
     #TODO выводить заряды в виде 1e10
 
-    Jd = 0.05  # eV
+    # Jd = 0.05  # eV
 
     nc = _calc_Nc(me, t)
     nv = _calc_Nv(mh, t)
@@ -143,6 +143,6 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, E
         return Result(Ef=Ef, n=n, p=p, Ndpl=ndpl, Q=q, ratio=(q/(p + ndpl)))
     else:
         if q > 0:
-            return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
+            return calculate_charges(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
         elif q < 0:
-            return calculate_charges(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
+            return calculate_charges(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
