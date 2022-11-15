@@ -7,9 +7,9 @@ from fompy.models import debye_length
 Kelvin = float
 Nd = 1e17
 T = 200.
-Eea = 4.0 # eV
+Eea = 4.0  # eV
 Jd = 0.01
-Au_E0 = 5.1 # Ev
+Au_E0 = 5.1  # Ev
 epsilon0 = 1e-10
 Ge_epsilon = 16.2
 e = 1.602e-19  # Кулон
