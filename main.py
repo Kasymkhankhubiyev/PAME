@@ -58,17 +58,15 @@ if __name__ == '__main__':
     # calc_acceptor_fermi_levels()
 
     # рассчет тока в полупроводнике в pn-переходе
-    Nd = 5e17
-    Na = 1e18
-
-    js = CurrentCalculus.count_Js(t=300., Nd=Nd, Na=Na)
-    print(js)
-
-    #Current(js=4.991999999999999e-13, jn=1.1519999999999998e-13, jp=3.84e-13)
+    # Nd = 5e17
+    # Na = 1e18
+    #
+    # js = CurrentCalculus.count_Js(t=300., Nd=Nd, Na=Na)
+    # print(js)
 
 
     # рассчет уровня энергии в периодической яме
-    # pp.run()
+    pp.run()
 
 
 

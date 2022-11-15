@@ -20,6 +20,7 @@ def volt_amper_characteristics() -> None:
     plt.legend('best')
     plt.savefig('volt_amper_charact')
 
+
 def g_m():
     pass
 
