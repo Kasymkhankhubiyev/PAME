@@ -28,8 +28,6 @@ Nd=10^17 -> статистика не вырожденная:
 
 """
 
-# TODO Jd = Ev+Ea, где Ea - энергия ионизации Ev=0 => Ea = Jd
-
 import numpy as np
 from typing import NamedTuple
 
