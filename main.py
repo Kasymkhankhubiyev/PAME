@@ -5,6 +5,7 @@ from SemiconCurrent import CurrentCalculus
 import matplotlib.pyplot as plt
 from task1 import PeriodicPotential as pp
 from task2 import Ge_n_type
+from Heterojunctions import Calculation
 
 
 def calc_Ld()->None:
@@ -69,7 +70,9 @@ if __name__ == '__main__':
     # рассчет уровня энергии в периодической яме
     # pp.run()
 
-    Ge_n_type.run()
+    # Ge_n_type.run()
+
+    Calculation.run()
 
 
 
