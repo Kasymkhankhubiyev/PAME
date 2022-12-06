@@ -1,4 +1,5 @@
 from Heterojunctions import Calculation
+from task3.runfile import run
 
 
 if __name__ == '__main__':
@@ -24,8 +25,8 @@ if __name__ == '__main__':
 
     # Ge_n_type.run()
 
-    Calculation.run()
-
-
+    # Calculation.run()
+    # Calculation.calc_AlGaAs_GeAs()
+    run()
 
 

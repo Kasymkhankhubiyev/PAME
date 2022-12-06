@@ -46,11 +46,47 @@ def plot_contact_zone(delta_Eg_model: float, Eg_outer: float, Eg_inner: float,
         z = np.linspace(Eg_outer, - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 + Eg_inner, 10)
     plt.plot(np.zeros_like(z) + 10, z, color='orange')
 
-    plt.savefig('Heterojunctions/model.png')
+    # plt.savefig('Heterojunctions/model.png')
+    plt.savefig('task3/model.png')
 
 
-def energy_split_orbital():
-    pass
+def calc_AlGaAs_GeAs():
+    a_AlGaAs = (5.6533 - 0.0078 * 0.4) * 10**-8 # Lattice constant, cm
+    epsilon_AlGaAs = 12.9 - 2.84 * 0.4
+    E_g_AlGaAs = 1.424 + 1.247 * 0.4  # eV
+
+    a_GaAs = 5.6532e-8  # Lattice constant, cm
+    epsilon_GaAs = 12.9
+    E_g_GaAs = 1.424  # eV
+
+    w_p_AlGaAs = plasm_freq(a=a_AlGaAs)
+    print(f'Wp for Si:  {w_p_AlGaAs}')
+    w_p_GaAs = plasm_freq(a_GaAs)
+    print(f'Wp for Si:  {w_p_GaAs}')
+
+    Eg_AlGaAs_model = energy(a=a_AlGaAs, epsilon=epsilon_AlGaAs)
+    Eg_GaAs_model = energy(a=a_GaAs, epsilon=epsilon_GaAs)
+
+    print(f'Si Eg = {Eg_AlGaAs_model}')
+    print(f'Ge Eg = {Eg_GaAs_model}')
+
+    delta_Eg_model = np.abs(Eg_AlGaAs_model - Eg_GaAs_model) / 2.
+    print(f'delta E model = {delta_Eg_model}')
+
+    delta_0_AlGaAs = 0.34 - 0.04 * 0.4
+    delta_0_GaAs = 0.34
+
+    print(f'delta_0_Si /3 = {delta_0_AlGaAs / 3}')
+    print(f'delta_0_Ge /3 = {delta_0_GaAs / 3}')
+
+    print(f'Si_Eg: {E_g_AlGaAs}')
+    print(f'Ge_Eg: {E_g_GaAs}')
+
+    plot_contact_zone(delta_Eg_model=delta_Eg_model,
+                      Eg_outer=E_g_AlGaAs,
+                      Eg_inner=E_g_GaAs,
+                      delta0_outer=delta_0_AlGaAs,
+                      delta0_inner=delta_0_GaAs)
 
 def run():
     """
@@ -63,8 +99,8 @@ def run():
     epsilon_Si = 11.7  # Dielectric constant
     E_g_Si = 1.17  # eV
 
-    a_Ge = 5.658e-8  # Lattice constant, cm
-    epsilon_Ge = 16.2  # Dielectric constant
+    a_Ge = 5.6532e-8  # Lattice constant, cm
+    epsilon_Ge = 12.9  # Dielectric constant
     E_g_Ge = 0.65  # eV
 
     w_p_si = plasm_freq(a=a_Si)
