@@ -14,11 +14,11 @@ matplotlib.rc('axes.formatter', useoffset=False)
 def periodic_potential(u):
     m = 0.063 * me
     U0 = -u * eV  # '-' потенцияальная яма
-    a = 100 * unit('nm')
-    b = 200 * unit('nm')
+    a = 10 * 1e-9 * unit('nm')
+    b = 5 * 1e-9 * unit('nm')
 
     kp_model = KronigPenneyModel(a, b, U0)
-    # dc_model = DiracCombModel(a + b, a * U0)s
+    dc_model = DiracCombModel(a + b, a * U0)
 
     es = np.linspace(-0.001 * eV, 0.001 * eV, 100000)
 
@@ -27,8 +27,8 @@ def periodic_potential(u):
 
     print(es/eV)
 
-    # ks = dc_model.get_ks(es, m)
-    # plt.plot(ks, es / eV, label='Dirac comb')
+    ks = dc_model.get_ks(es, m)
+    plt.plot(ks, es / eV, label='Dirac comb')
 
     plt.axhline(0, color='k', linestyle='--')
     plt.xlim(0, pi)
