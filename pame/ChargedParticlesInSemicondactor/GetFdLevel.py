@@ -1,4 +1,4 @@
-from ChargedParticlesInSemicondactor.DonorFermiLevel import *
+from pame.ChargedParticlesInSemicondactor.DonorFermiLevel import *
 
 def calc_donor_fermi_levels() -> None:
     # поиск урвня Ферми для доноров

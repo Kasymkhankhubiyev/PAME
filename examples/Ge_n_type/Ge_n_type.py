@@ -1,7 +1,7 @@
 """
 GeSb
 """
-from ChargedParticlesInSemicondactor.DonorFermiLevel import *
+from pame.ChargedParticlesInSemicondactor.DonorFermiLevel import *
 from fompy.models import debye_length
 
 Kelvin = float
@@ -29,7 +29,7 @@ def run():
         # в этом случае у нас будто p-n переход - можем найти ширину ОПЗ
         delta_phi = 0.5  # V контактная разность потенциалов
         # 1eV = 1,602e-19 J
-        w = np.sqrt(2 * delta_phi * epsilon0 * Ge_epsilon / (e * Nd * 1e6))  # перемели в кубометр
+        w = np.sqrt(2 * delta_phi * epsilon0 * Ge_epsilon / (e * Nd * 1e6))  # перевели в кубометр
         print(f'Ширина изгиба: {w * 1e9} нано метров')
     if delta_E - result.Ef <= 0:
         print("Обеднение - Уровень Ферми ушел глубоко и носителей заряда стало очень мало")

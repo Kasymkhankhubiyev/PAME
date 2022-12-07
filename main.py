@@ -1,4 +1,3 @@
-from Heterojunctions import Calculation
 from task3.runfile import run
 
 

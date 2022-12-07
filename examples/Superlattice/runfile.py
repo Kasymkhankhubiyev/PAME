@@ -1,4 +1,4 @@
-from Heterojunctions.Calculation import *
+from pame.HeteroStructure.Calculation import *
 import numpy as np
 
 from fompy.constants import eV, me
@@ -35,7 +35,7 @@ def periodic_potential(u):
     plt.xlabel("k*(a+b)")
     plt.ylabel("Energy")
     plt.legend()
-    plt.savefig('task3/potential.png')
+    plt.savefig('Superlattice/potential.png')
 
 def run():
     a_AlGaAs = (5.6533 - 0.0078 * 0.4) * 10**-8 # Lattice constant, cm
@@ -46,13 +46,13 @@ def run():
     epsilon_GaAs = 12.9
     E_g_GaAs = 1.424  # eV
 
-    w_p_AlGaAs = plasm_freq(a=a_AlGaAs)
+    w_p_AlGaAs = _plasm_freq(a=a_AlGaAs)
     print(f'Wp for Si:  {w_p_AlGaAs}')
-    w_p_GaAs = plasm_freq(a_GaAs)
+    w_p_GaAs = _plasm_freq(a_GaAs)
     print(f'Wp for Si:  {w_p_GaAs}')
 
-    Eg_AlGaAs_model = energy(a=a_AlGaAs, epsilon=epsilon_AlGaAs)
-    Eg_GaAs_model = energy(a=a_GaAs, epsilon=epsilon_GaAs)
+    Eg_AlGaAs_model = _energy(a=a_AlGaAs, epsilon=epsilon_AlGaAs)
+    Eg_GaAs_model = _energy(a=a_GaAs, epsilon=epsilon_GaAs)
 
     print(f'Si Eg = {Eg_AlGaAs_model}')
     print(f'Ge Eg = {Eg_GaAs_model}')
@@ -69,11 +69,11 @@ def run():
     print(f'Si_Eg: {E_g_AlGaAs}')
     print(f'Ge_Eg: {E_g_GaAs}')
 
-    plot_contact_zone(delta_Eg_model=delta_Eg_model,
-                      Eg_outer=E_g_AlGaAs,
-                      Eg_inner=E_g_GaAs,
-                      delta0_outer=delta_0_AlGaAs,
-                      delta0_inner=delta_0_GaAs)
+    _plot_contact_zone(delta_Eg_model=delta_Eg_model,
+                       Eg_outer=E_g_AlGaAs,
+                       Eg_inner=E_g_GaAs,
+                       delta0_outer=delta_0_AlGaAs,
+                       delta0_inner=delta_0_GaAs)
 
     delta_u = E_g_AlGaAs - E_g_GaAs
     periodic_potential(delta_u)

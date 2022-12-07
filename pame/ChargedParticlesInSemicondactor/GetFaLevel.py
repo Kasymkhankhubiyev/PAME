@@ -1,4 +1,4 @@
-from ChargedParticlesInSemicondactor.AcceptorFermiLevel import *
+from pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel import *
 
 def calc_acceptor_fermi_levels() -> None:
     # поиск урвня Ферми для акцепторов
