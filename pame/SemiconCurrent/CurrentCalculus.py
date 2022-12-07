@@ -32,7 +32,7 @@ def _calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
     return Nv
 
 
-def count_ni(t: float) -> float:
+def _count_ni(t: float) -> float:
 
     me_si = 0.36
     mh_si = 0.81
@@ -49,7 +49,7 @@ def count_ni(t: float) -> float:
     return ni
 
 
-def count_pi(t: float) -> float:
+def _count_pi(t: float) -> float:
     me_si = 0.36
     mh_si = 0.81
     # Nc = 6.2 * 10**15 * (t ** 1.5)
@@ -64,13 +64,13 @@ def count_pi(t: float) -> float:
     return pi
 
 
-def count_Jp(Na: float, t: float) -> float:
+def _count_Jp(Na: float, t: float) -> float:
     e = 1.6e-19  # Кулон
     Dp = 12  # cm^2/s
     lp = 1e-3  # cm
     nn = Na
 
-    pi = count_pi(t=t)
+    pi = _count_pi(t=t)
 
     pn0 = pi**2 / nn
 
@@ -81,13 +81,13 @@ def count_Jp(Na: float, t: float) -> float:
     return Jp
 
 
-def count_Jn(Nd: float, t: float) -> float:
+def _count_Jn(Nd: float, t: float) -> float:
     e = 1.6e-19  # Кулон
     Dn = 36  # cm^2/s
     ln = 5e-3  # cm
     pp = Nd
 
-    ni = count_pi(t=t)
+    ni = _count_pi(t=t)
     np0 = ni**2 / pp
 
     # np0 = 100
@@ -98,7 +98,7 @@ def count_Jn(Nd: float, t: float) -> float:
 
 
 def count_Js(t: float, Nd: float, Na: float) -> Current:
-    Jn, Jp = count_Jn(Nd=Nd, t=t), count_Jp(Na=Na, t=t)
+    Jn, Jp = _count_Jn(Nd=Nd, t=t), _count_Jp(Na=Na, t=t)
 
     Js = Jn + Jp
 
