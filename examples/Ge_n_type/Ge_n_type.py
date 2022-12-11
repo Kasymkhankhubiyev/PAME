@@ -2,7 +2,7 @@
 GeSb
 """
 from pame.ChargedParticlesInSemicondactor.DonorFermiLevel import *
-from fompy.models import debye_length
+from pame.Semiconductors.helper import debye_length
 
 Kelvin = float
 Nd = 1e17
