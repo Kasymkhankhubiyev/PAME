@@ -19,7 +19,7 @@ def run():
     mh = 0.34
     Eg = 0.742 - 4.8e-4 * T**2 / (T + 235)  # eV
     print(f'Ширина Запрещенной зоны: {Eg}')
-    result = calculate_charges(me=me, mh=mh, t=T, Efpl=Eg/2, Jd=Jd, Efneg=Eg, Ec=Eg, Ev=0, Nd=1e17)
+    result = find_fermi_level(me=me, mh=mh, t=T, Efpl=Eg / 2, Jd=Jd, Efneg=Eg, Ec=Eg, Ev=0, Nd=1e17)
     print(f'Уровень Ферми: {result.Ef}')
     print(f'концентрация электронов: {result.n}')
     delta_E = Au_E0 - (Eea + Eg)

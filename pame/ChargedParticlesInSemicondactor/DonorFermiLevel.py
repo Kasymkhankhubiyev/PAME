@@ -47,7 +47,7 @@ class Result(NamedTuple):
     ratio: float
 
 
-def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
+def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
     """
     Расчет делаем методом дихотомии
 
@@ -82,6 +82,6 @@ def calculate_charges(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efp
                       Ndpl=convert_charges(ndpl), Q=q, ratio=(q/(p + ndpl)))
     else:
         if q > 0:
-            return calculate_charges(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
+            return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
         elif q < 0:
-            return calculate_charges(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
+            return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
