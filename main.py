@@ -1,5 +1,5 @@
-from task3.runfile import run
-
+# from task3.runfile import run
+from pame.ChargedParticlesInSemicondactor.CalculateParticles import convert_charges
 
 if __name__ == '__main__':
 
@@ -26,6 +26,6 @@ if __name__ == '__main__':
 
     # Calculation.run()
     # Calculation.calc_AlGaAs_GeAs()
-    run()
+    # run()
 
-
+    convert_charges(21192039402939)

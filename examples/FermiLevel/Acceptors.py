@@ -1,6 +1,6 @@
 from pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel import *
 
-def calc_acceptor_fermi_levels() -> None:
+if __name__ == '__main__':
     # поиск урвня Ферми для акцепторов
     result = calculate_charges(me=0.36, mh=0.36, t=300, Efpl=0.0, Efneg=0.57, Ec=1.12, Ev=0, Nd=1e16)
     print(result)
