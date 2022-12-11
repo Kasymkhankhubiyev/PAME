@@ -29,9 +29,10 @@ def _pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
     :param p0: amount of protons on a valence band in a p-type
     :return: width of bend for n-type
     """
-    epsilon0 = 1  # e-10
-    e = 1  # 1 eV
-    return np.sqrt((2 * epsilon0 * epsilon * p0 * delta_phi) / (e * n0 * (n0 + p0)))
+    epsilon0 = 8.8e-14  # F/cm
+    e = 1.602e-19
+    eV = 1.602e-19
+    return np.sqrt((2 * epsilon0 * epsilon * p0 * delta_phi) / (e * n0 * (n0 + p0))) / 100  # m
 
 
 def _pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
@@ -43,15 +44,15 @@ def _pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
         :param p0: amount of protons on a valence band in a p-type
         :return: width of bend for p-type
         """
-    epsilon0 = 1  # e-10
-    e = 1  # 1 eV
-    return np.sqrt((2 * epsilon0 * epsilon * n0 * delta_phi) / (e * p0 * (n0 + p0)))
+    epsilon0 = 8.8e-14  # F/cm
+    e = 1.602e-19
+    return np.sqrt((2 * epsilon0 * epsilon * n0 * delta_phi) / (e * p0 * (n0 + p0))) / 100  # m
 
 
 def _pn_junction_w_full(delta_phi: float, epsilon: float, n0: float, p0: float) -> float:
-    epsilon0 = 1  # e-10 - СГСЭ просто 1
-    e = 1  # 1 eV
-    return np.sqrt(2 * epsilon * epsilon0 * delta_phi * (n0 + p0) / (e * n0 * p0))
+    epsilon0 = 8.8e-14  # F/cm
+    e = 1.602e-19
+    return np.sqrt(2 * epsilon * epsilon0 * delta_phi * (n0 + p0) / (e * n0 * p0)) / 100  # m
 
 
 def pn_junction_w_width(delta_phi: float, epsilon: float, n0: float, p0: float, explicit=False):
