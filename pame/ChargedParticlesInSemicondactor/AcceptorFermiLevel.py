@@ -45,9 +45,11 @@ class Result(NamedTuple):
     Ndneg: str
     Q: float
     ratio: float
+    Nv: str
+    Nc: str
 
 
-def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
+def find_fermi_level(me: me_effective, mh: mh_effective, Jd: float, t: Kelvin, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Na: float):
     """
     Расчет делаем методом дихотомии
 
@@ -59,7 +61,6 @@ def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Ef
     :param Efng: уровень Ферми близок к потолку валентной зоны
     :return:
     """
-    Jd = 0.05
 
     nc = calc_Nc(me, t)
     nv = calc_Nv(mh, t)
@@ -70,15 +71,15 @@ def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Efpl: eV, Ef
 
     n = calc_n(nc=nc, Ef=Ef, Ec=Ec, t=t)
     p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
-    naneg = calc_Naneg(Na=Nd, Ef=Ef, Ea=Jd-Ev, t=t)
+    naneg = calc_Naneg(Na=Na, Ef=Ef, Ea=Jd - Ev, t=t)
     q = count_Q(n=n, p=p, Na=naneg)
 
     if np.abs(q/(n + naneg)) < 0.0001:
-        print(f'Na={Nd}     nc={nv}')
+        # print(f'Na={Na}     nc={nv}')
         return Result(Ef=Ef, n=convert_charges(n), p=convert_charges(p), Ndneg=convert_charges(naneg),
-                      Q=q, ratio=(q/(n + naneg)))
+                      Q=q, ratio=(q/(n + naneg)), Nv=convert_charges(nv), Nc=convert_charges(nc))
     else:
         if q < 0:
-            return find_fermi_level(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)
+            return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Na=Na, Efneg=Ef, Efpl=Efpl)
         elif q > 0:
-            return find_fermi_level(me=me, mh=mh, t=t, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Efneg, Efpl=Ef)
+            return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Na=Na, Efneg=Efneg, Efpl=Ef)

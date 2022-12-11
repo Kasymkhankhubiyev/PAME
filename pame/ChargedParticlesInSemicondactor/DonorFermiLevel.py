@@ -45,6 +45,8 @@ class Result(NamedTuple):
     Ndpl: str
     Q: float
     ratio: float
+    Nv: str
+    Nc: str
 
 
 def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl: eV, Efneg: eV, Ec: eV, Ev: eV, Nd: float):
@@ -77,9 +79,10 @@ def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl
     q = count_Q(n=n, p=p, Nd=ndpl)
 
     if np.abs(q/(p + ndpl)) < 0.0001:
-        print(f'Nd={Nd}     nc={nc}')
+        # print(f'Nd={Nd}     nc={nc}')
         return Result(Ef=Ef, n=convert_charges(n), p=convert_charges(p),
-                      Ndpl=convert_charges(ndpl), Q=q, ratio=(q/(p + ndpl)))
+                      Ndpl=convert_charges(ndpl), Q=q, ratio=(q/(p + ndpl)),
+                      Nv=convert_charges(nv), Nc=convert_charges(nc))
     else:
         if q > 0:
             return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Nd=Nd, Efneg=Ef, Efpl=Efpl)

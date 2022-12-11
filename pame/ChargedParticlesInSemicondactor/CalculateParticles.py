@@ -81,6 +81,6 @@ def calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
 def convert_charges(charge: float) -> str:
     factor = round(np.log10(charge))
     body = charge / 10 ** factor
-    print(body, factor, charge)
-    print('{:.2f}'.format(body)+f'e{factor}')
+    # print(body, factor, charge)
+    # print('{:.2f}'.format(body)+f'e{factor}')
     return '{:.2f}'.format(body)+f'e{factor}'

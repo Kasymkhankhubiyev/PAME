@@ -1,5 +1,5 @@
 import numpy as np
-from pame.BandBend.exceptions import CantMatchMethod, CantRunDichotomyMethod, CatchZeroDelta
+from pame.exceptions import CantMatchMethod, CantRunDichotomyMethod, CatchZeroDelta
 
 
 def _bend_function(epsilon: float, phi: float, Nd: float, Nas: float, Eas: float,

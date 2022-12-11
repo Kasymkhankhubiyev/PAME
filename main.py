@@ -1,5 +1,6 @@
-# from task3.runfile import run
+# from examples.Superlattice.runfile import run
 from pame.ChargedParticlesInSemicondactor.CalculateParticles import convert_charges
+from examples.ControlWork2019.task2 import run
 
 if __name__ == '__main__':
 
@@ -18,6 +19,5 @@ if __name__ == '__main__':
 
     # Calculation.run()
     # Calculation.calc_AlGaAs_GeAs()
-    # run()
-
-    convert_charges(21192039402939)
+    run()
+    # convert_charges(21192039402939)

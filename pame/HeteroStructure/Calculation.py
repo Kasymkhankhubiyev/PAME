@@ -77,7 +77,7 @@ def process_heterostructure(wide_band: SemiCond, slim_band: SemiCond, path=None)
     print(f'delta_0_{slim_band.name} /3 = {slim_band.spin_orbital_splitting / 3}')
 
     print(f'{wide_band.name}_Eg: {wide_band.E_g}')
-    print(f'{wide_band.name}_Eg: {slim_band.E_g}')
+    print(f'{slim_band.name}_Eg: {slim_band.E_g}')
 
     if path is not None:
         plt = _plot_contact_zone(delta_Eg_model=delta_e_g_model,
