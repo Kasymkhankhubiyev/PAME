@@ -14,7 +14,7 @@ epsilon0 = 1e-10
 Ge_epsilon = 16.2
 e = 1.602e-19  # Кулон
 
-def run():
+if __name__ == '__main__':
     me = 0.22
     mh = 0.34
     Eg = 0.742 - 4.8e-4 * T**2 / (T + 235)  # eV

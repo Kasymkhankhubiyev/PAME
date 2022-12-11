@@ -3,14 +3,6 @@ from pame.ChargedParticlesInSemicondactor.CalculateParticles import convert_char
 
 if __name__ == '__main__':
 
-    # volt_amper_characteristics()
-    #
-    # # поиск урвня Ферми для доноров
-    # calc_donor_fermi_levels()
-    #
-    # # поиск урвня Ферми для акцепторов
-    # calc_acceptor_fermi_levels()
-
     # рассчет тока в полупроводнике в pn-переходе
     # Nd = 5e17
     # Na = 1e18
