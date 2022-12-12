@@ -13,7 +13,7 @@ Na = 3*10^16 cm^-3 в p-типе определите эффективные п�
 import pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel as afl
 import pame.ChargedParticlesInSemicondactor.DonorFermiLevel as dfl
 from pame.Semiconductors.helper import pn_junction_w_width
-from pame.SemiconCurrent.CurrentCalculus import count_Js, count_ni, count_p_n, count_n_p
+from pame.SemiconCurrent.CurrentCalculus import count_Js, volt_amper_characteristic
 from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_n, calc_p, calc_Nc, calc_Nv
 
 
@@ -43,3 +43,6 @@ def run():
     j_current = count_Js(me=0.36, mh=0.81, t=250, Nd=Si_Nd, Na=Si_Na, Dp=Si_Dp, Lp=Si_Lp, Dn=Si_Dn, Ln=Si_Ln, Eg=1.12,
                          Ef_p=Si_p.Ef, Ef_n=Si_n.Ef)
     print(f'Js = {j_current.js}, j_p = {j_current.jp}, j_n = {j_current.jn}')
+
+    I = volt_amper_characteristic(js=j_current.jn, s=1e-2, path='examples/ControlWork2019/', t=250)
+    # print(f'I = {I} Ампер')

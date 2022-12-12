@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from typing import NamedTuple
 from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_Nv, calc_Nc, calc_n, calc_p
@@ -5,6 +6,8 @@ from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_Nv, cal
 me_effective = float
 mh_effective = float
 Kelvin = float
+
+from fompy.units import unit
 
 
 class Current(NamedTuple):
@@ -90,3 +93,27 @@ def count_Js(me: float, mh: float, t: float, Nd: float, Na: float, Eg: float,
     Jp = _count_Jp(Na=Na, t=t, Dp=Dp, Lp=Lp, me=me, mh=mh, Eg=Eg, Ef_n=Ef_n)
     Js = Jn + Jp
     return Current(js=Js, jn=Jn, jp=Jp)
+
+
+def calclate_I_amper(js: float, s: float) -> float:
+    """
+    :math: $I(A)=j_s*S =~ [Кл/сек]$
+    :param js: плотность тока
+    :param s: площадь в мм
+    :return: ток в амперах
+    """
+    return js * s
+
+
+def volt_amper_characteristic(js: float, s: float, t: float, path: str):
+    e = 1.6e-19  # Кулон
+    k = 1.38e-23  # J/K
+    u = np.linspace(-1, 1, 1000)
+    J = []
+    for i in range(len(u)):
+        J.append(js * s * (np.exp(u[i]*e/(k*t)) - 1) / 1e4)
+    plt.plot(u, J, color='blue')
+    plt.savefig(path+'vac')
+    return u, J
+
+

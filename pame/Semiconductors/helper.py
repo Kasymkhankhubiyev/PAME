@@ -31,7 +31,6 @@ def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
     """
     epsilon0 = 8.8e-14  # F/cm
     e = 1.602e-19
-    eV = 1.602e-19
     return np.sqrt((2 * epsilon0 * epsilon * p0 * delta_phi) / (e * n0 * (n0 + p0))) / 100  # m
 
 
@@ -64,6 +63,9 @@ def pn_junction_w_width(delta_phi: float, epsilon: float, n0: float, p0: float, 
     else:
         return _pn_junction_w_full(delta_phi=delta_phi, epsilon=epsilon, n0=n0, p0=p0)
 
+
+def lambda_electron(me: float, t: float):
+    return 132 * np.sqrt(1/me) / t**0.5
 
 def periodic_potential_solver():
     pass
