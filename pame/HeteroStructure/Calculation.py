@@ -32,7 +32,7 @@ def _energy(a: lattice, epsilon: float) -> float:
 
 
 def _plot_contact_zone(delta_Eg_model: float, Eg_outer: float, Eg_inner: float,
-                       delta0_outer: float, delta0_inner: float) -> plt:
+                       delta0_outer: float, delta0_inner: float, path: str) -> None:
     x = np.linspace(0, 10, 10)
     plt.plot(x, np.zeros_like(x), color='blue')
     plt.plot(x, np.zeros_like(x) + Eg_outer, color='blue')
@@ -54,8 +54,7 @@ def _plot_contact_zone(delta_Eg_model: float, Eg_outer: float, Eg_inner: float,
         z = np.linspace(Eg_outer, - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 + Eg_inner, 10)
     plt.plot(np.zeros_like(z) + 10, z, color='orange')
 
-    plt.savefig(f'path/model.png')
-    return plt
+    plt.savefig(path+'model.png')
 
 
 def process_heterostructure(wide_band: SemiCond, slim_band: SemiCond, path=None) -> tuple:
@@ -80,11 +79,11 @@ def process_heterostructure(wide_band: SemiCond, slim_band: SemiCond, path=None)
     print(f'{slim_band.name}_Eg: {slim_band.E_g}')
 
     if path is not None:
-        plt = _plot_contact_zone(delta_Eg_model=delta_e_g_model,
-                                 Eg_outer=wide_band.E_g,
-                                 Eg_inner=slim_band.E_g,
-                                 delta0_outer=wide_band.spin_orbital_splitting,
-                                 delta0_inner=slim_band.spin_orbital_splitting)
+        _plot_contact_zone(delta_Eg_model=delta_e_g_model,
+                           Eg_outer=wide_band.E_g,
+                           Eg_inner=slim_band.E_g,
+                           delta0_outer=wide_band.spin_orbital_splitting,
+                           delta0_inner=slim_band.spin_orbital_splitting, path=path)
 
     delta_e_conductivity = wide_band.E_g - (0 - wide_band.spin_orbital_splitting / 3 + delta_e_g_model +
                                             slim_band.spin_orbital_splitting / 3 + slim_band.E_g)

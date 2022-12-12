@@ -9,15 +9,18 @@ def debye_length(epsilon: float, n: float, t: float) -> float:
     :return: Debey length in cm
     """
     k = 1.381e-16  # arg/K
-    e = 1  # eV
+    # e = 1  # eV
+    e = 4.803e-10
 
     return np.sqrt(epsilon * k * 6.24e11 * t / (4 * np.pi * e ** 2 * n))
 
 
-def w_width(delta_phi: float, semicond_epsilon: float, Nd: float):
+def w_width(delta_phi: float, semicond_epsilon: float, carrier: float) -> float:
     epsilon0 = 1e-10
-    e = 1.602e-19  # Кулон
-    return np.sqrt(2 * delta_phi * epsilon0 * semicond_epsilon / (e * Nd * 1e6))  # перевели в кубометр
+    # e = 1  # eV  1.602e-19  # Кулон
+    e = 4.803e-10
+    return np.sqrt(semicond_epsilon * delta_phi / (2 * np.pi * e * carrier))
+    # return np.sqrt(delta_phi * 2 * epsilon0 * semicond_epsilon / (e * carrier))  # перевели в кубометр
 
 
 def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
