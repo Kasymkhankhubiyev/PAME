@@ -78,7 +78,7 @@ def _count_Jn(me: float, mh: float, Nd: float, t: float, Dn: float, Ln: float) -
 
     # np0 = 100
 
-    Jn = (e * Dn * np0) / ln
+    Jn = ((e * Dn * np0) / ln)
 
     return Jn
 

@@ -77,6 +77,7 @@ def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl
     p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
     ndpl = calc_Ndplus(Nd=Nd, Ef=Ef, Ed=Ec - Jd, t=t)
     q = count_Q(n=n, p=p, Nd=ndpl)
+    # print(n, p, ndpl)
 
     if np.abs(q/(p + ndpl)) < 0.0001:
         # print(f'Nd={Nd}     nc={nc}')

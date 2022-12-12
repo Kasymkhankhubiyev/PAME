@@ -19,7 +19,7 @@ def count_Q(n: float, p: float, Nd=None, Na=None) -> float:
     if Nd is not None:
         return n - p - Nd
     if Na is not None:
-        return p - n - Na
+        return n + Na - p
 
 
 def calc_n(nc: float, Ef: float, Ec: float, t: Kelvin) -> float:  # Nparticle:
@@ -53,9 +53,8 @@ def calc_Ndplus(Nd: float, Ef: eV, Ed: eV, t: Kelvin):
 
 def calc_Naneg(Na: float, Ef: eV, Ea: eV, t: Kelvin):
     k = 1.38e-16  # эрг/К
-
-    naneg = Na / (1. + 4. * np.exp((Ef - Ea)/(k * 6.24e11 * t)))
-    return naneg
+    naneg = Na / (1. + .25 * np.exp((Ea - Ef)/(k * 6.24e11 * t)))
+    return np.abs(naneg)
 
 
 def calc_Nc(me: me_effective, t: Kelvin) -> float:  # Nparticle:
