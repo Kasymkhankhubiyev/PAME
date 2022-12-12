@@ -19,7 +19,7 @@ from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_n, calc
 
 def run():
     Si_epsilon = 11.7
-    Si_Nd, Si_Na = 10**16, 3 * 10**16
+    Si_Nd, Si_Na = 1e16, 3e16
     Si_Dp, Si_Lp, Si_Dn, Si_Ln = 12, 2e-3, 36, 1e-2
 
     Si_n = dfl.find_fermi_level(me=0.36, mh=0.81, t=250, Jd=0.05, Efpl=0.57, Efneg=1.12, Ec=1.12, Ev=0, Nd=Si_Nd)
@@ -40,13 +40,6 @@ def run():
                                       explicit=True)
     print(f'w_p = {w_p}, w_n = {w_n}, w = {w}')
 
-    j_current = count_Js(me=0.36, mh=0.81, t=250, Nd=Si_Nd, Na=Si_Na, Dp=Si_Dp, Lp=Si_Lp, Dn=Si_Dn, Ln=Si_Ln)
+    j_current = count_Js(me=0.36, mh=0.81, t=250, Nd=Si_Nd, Na=Si_Na, Dp=Si_Dp, Lp=Si_Lp, Dn=Si_Dn, Ln=Si_Ln, Eg=1.12,
+                         Ef_p=Si_p.Ef, Ef_n=Si_n.Ef)
     print(f'Js = {j_current.js}, j_p = {j_current.jp}, j_n = {j_current.jn}')
-
-    ni_2 = count_ni(t=250, me=0.36, mh=0.81)**2
-    print(f'n_i^2 = {ni_2}')
-
-    p_n = count_p_n(ni2=ni_2, nc=calc_Nc(me=0.36, t=250), Ef_n=Si_n.Ef, Eg=1.12, t=250)
-    n_p = count_n_p(ni2=ni_2, nv=calc_Nv(mh=0.81, t=250), Ef_p=Si_p.Ef, t=250)
-
-    print(f'p_n = {p_n}, n_p = {n_p}')

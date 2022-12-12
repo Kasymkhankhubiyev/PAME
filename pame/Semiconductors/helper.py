@@ -20,7 +20,7 @@ def w_width(delta_phi: float, semicond_epsilon: float, Nd: float):
     return np.sqrt(2 * delta_phi * epsilon0 * semicond_epsilon / (e * Nd * 1e6))  # перевели в кубометр
 
 
-def _pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
+def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
     """
     :math: $w_n^2=\frac{2\epsilon\epsilon_0\delta\phi p_0}{en_0(n_0+p_0)}$
     :param delta_phi: Ef_p-type - Ef_n-type  [eV]
@@ -35,7 +35,7 @@ def _pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
     return np.sqrt((2 * epsilon0 * epsilon * p0 * delta_phi) / (e * n0 * (n0 + p0))) / 100  # m
 
 
-def _pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
+def pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
     """
         :math: $w_n^2=\frac{2\epsilon\epsilon_0\delta\phi n_0}{ep_0(n_0+p_0)}$
         :param delta_phi: Ef_p-type - Ef_n-type  [eV]
@@ -57,8 +57,8 @@ def _pn_junction_w_full(delta_phi: float, epsilon: float, n0: float, p0: float) 
 
 def pn_junction_w_width(delta_phi: float, epsilon: float, n0: float, p0: float, explicit=False):
     if explicit:
-        w_n = _pn_junction_w_n(delta_phi=delta_phi, epsilon=epsilon, n0=n0, p0=p0)
-        w_p = _pn_junction_w_p(delta_phi=delta_phi, epsilon=epsilon, n0=n0, p0=p0)
+        w_n = pn_junction_w_n(delta_phi=delta_phi, epsilon=epsilon, n0=n0, p0=p0)
+        w_p = pn_junction_w_p(delta_phi=delta_phi, epsilon=epsilon, n0=n0, p0=p0)
         w = w_p + w_n
         return w, w_p, w_n
     else:
