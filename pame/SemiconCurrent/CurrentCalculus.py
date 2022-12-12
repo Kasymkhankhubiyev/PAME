@@ -1,5 +1,6 @@
 import numpy as np
 from typing import NamedTuple
+from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_Nv, calc_Nc
 
 me_effective = float
 mh_effective = float
@@ -12,35 +13,22 @@ class Current(NamedTuple):
     jp: float
 
 
-def _calc_Nc(me: me_effective, t: Kelvin) -> float:  # Nparticle:
-    k = 1.38e-023  # J/K
-    h = 1.054e-034  # kg * m /sec^2
-    m0 = 9.109e-031  # kg ~ 0.511MeV
-
-    Nc = 2 * ((2 * np.pi * me * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
-    Nc /= 10**6  # 1/cm^3
-    return Nc
+def count_p_n(ni2: float, nc: float, Ef_n: float, Eg: float, t: float) -> float:
+    k = 1.38e-16  # эрг/К
+    return ni2 / (nc * np.exp(Ef_n-Eg)/(k * 6.24e11 * t))
 
 
-def _calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
-    k = 1.38e-023  # J/K
-    h = 1.054e-034  # kg * m /sec^2
-    m0 = 9.109e-031  # kg ~ 0.511MeV
-
-    Nv = 2 * ((2 * np.pi * mh * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
-    Nv /= 10 ** 6  # 1/cm^3
-    return Nv
+def count_n_p(ni2: float, nv: float, Ef_p: float, t: float) -> float:
+    k = 1.38e-16  # эрг/К
+    return ni2 / (nv * np.exp(-Ef_p)/(k * 6.24e11 * t))
 
 
-def _count_ni(t: float) -> float:
-
-    me_si = 0.36
-    mh_si = 0.81
+def count_ni(t: float, me: float, mh: float) -> float:
 
     # Nc = 6.2 * 10**15 * t**1.5
     # Nv = 3.5 * 10**15 * t**1.5
-    Nc = _calc_Nc(me=me_si, t=t)
-    Nv = _calc_Nv(mh=mh_si, t=t)
+    Nc = calc_Nc(me=me, t=t)
+    Nv = calc_Nv(mh=mh, t=t)
     Eg = 1.12  # eV
     k = 1.38e-16  # эрг/К
 
@@ -49,13 +37,11 @@ def _count_ni(t: float) -> float:
     return ni
 
 
-def _count_pi(t: float) -> float:
-    me_si = 0.36
-    mh_si = 0.81
+def count_pi(t: float, me: float, mh: float) -> float:
     # Nc = 6.2 * 10**15 * (t ** 1.5)
     # Nv = 3.5 * 10**15 * (t ** 1.5)
-    Nc = _calc_Nc(me=me_si, t=t)
-    Nv = _calc_Nv(mh=mh_si, t=t)
+    Nc = calc_Nc(me=me, t=t)
+    Nv = calc_Nv(mh=mh, t=t)
     Eg = 1.12  # eV
     k = 1.38e-16  # эрг/К
 
@@ -64,13 +50,13 @@ def _count_pi(t: float) -> float:
     return pi
 
 
-def _count_Jp(Na: float, t: float) -> float:
+def _count_Jp(me: float, mh: float, Na: float, t: float, Dp: float, Lp: float) -> float:
     e = 1.6e-19  # Кулон
-    Dp = 12  # cm^2/s
-    lp = 1e-3  # cm
+    # Dp = 12  # cm^2/s
+    lp = Lp  # 1e-3  # cm
     nn = Na
 
-    pi = _count_pi(t=t)
+    pi = count_pi(t=t, me=me, mh=mh)
 
     pn0 = pi**2 / nn
 
@@ -81,13 +67,13 @@ def _count_Jp(Na: float, t: float) -> float:
     return Jp
 
 
-def _count_Jn(Nd: float, t: float) -> float:
+def _count_Jn(me: float, mh: float, Nd: float, t: float, Dn: float, Ln: float) -> float:
     e = 1.6e-19  # Кулон
-    Dn = 36  # cm^2/s
-    ln = 5e-3  # cm
+    # Dn = Dn  # 36  # cm^2/s
+    ln = Ln  # 5e-3  # cm
     pp = Nd
 
-    ni = _count_pi(t=t)
+    ni = count_pi(t=t, me=me, mh=mh)
     np0 = ni**2 / pp
 
     # np0 = 100
@@ -97,9 +83,8 @@ def _count_Jn(Nd: float, t: float) -> float:
     return Jn
 
 
-def count_Js(t: float, Nd: float, Na: float) -> Current:
-    Jn, Jp = _count_Jn(Nd=Nd, t=t), _count_Jp(Na=Na, t=t)
-
+def count_Js(me: float, mh: float, t: float, Nd: float, Na: float, Dn: float, Ln: float, Dp: float, Lp: float) -> Current:
+    Jn = _count_Jn(Nd=Nd, t=t, Dn=Dn, Ln=Ln, me=me, mh=mh)
+    Jp = _count_Jp(Na=Na, t=t, Dp=Dp, Lp=Lp, me=me, mh=mh)
     Js = Jn + Jp
-
     return Current(js=Js, jn=Jn, jp=Jp)

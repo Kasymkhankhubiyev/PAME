@@ -13,12 +13,16 @@ Na = 3*10^16 cm^-3 в p-типе определите эффективные п�
 import pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel as afl
 import pame.ChargedParticlesInSemicondactor.DonorFermiLevel as dfl
 from pame.Semiconductors.helper import pn_junction_w_width
+from pame.SemiconCurrent.CurrentCalculus import count_Js, count_ni, count_p_n, count_n_p
+from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_n, calc_p, calc_Nc, calc_Nv
 
 
 
 def run():
     Si_epsilon = 11.7
     Si_Nd, Si_Na = 1e16, 3e16
+    Si_Dp, Si_Lp, Si_Dn, Si_Ln = 12, 2e-3, 36, 1e-2
+
     Si_n = dfl.find_fermi_level(me=0.36, mh=0.81, t=250, Jd=0.05, Efpl=0.57, Efneg=1.12, Ec=1.12, Ev=0, Nd=Si_Nd)
     print(f'Si_n: Nv={Si_n.Nv}, Nc={Si_n.Nc}')
     Si_p = afl.find_fermi_level(me=0.36, mh=0.81, t=250, Jd=0.05, Efpl=0.57, Efneg=1.12, Ec=1.12, Ev=0, Na=Si_Na)
@@ -26,7 +30,23 @@ def run():
     print(f'Fermi Levels difference: {Si_n.Ef-Si_p.Ef}')
 
     w, w_p, w_n = pn_junction_w_width(delta_phi=Si_n.Ef-Si_p.Ef, epsilon=Si_epsilon, n0=Si_Nd, p0=Si_Na, explicit=True)
-
     print(f'w_p = {w_p}, w_n = {w_n}, w = {w}')
 
+    print(f'Si_n: n0 = {Si_n.n}, Si_p: p0 = {Si_p.p}')
 
+    w, w_p, w_n = pn_junction_w_width(delta_phi=Si_n.Ef - Si_p.Ef, epsilon=Si_epsilon,
+                                      n0=calc_n(nc=calc_Nc(me=0.36, t=250), Ef=Si_n.Ef, Ec=1.12, t=250),
+                                      p0=calc_p(nv=calc_Nv(mh=0.81, t=250), Ef=Si_p.Ef, Ev=0, t=250),
+                                      explicit=True)
+    print(f'w_p = {w_p}, w_n = {w_n}, w = {w}')
+
+    j_current = count_Js(me=0.36, mh=0.81, t=250, Nd=Si_Nd, Na=Si_Na, Dp=Si_Dp, Lp=Si_Lp, Dn=Si_Dn, Ln=Si_Ln)
+    print(f'Js = {j_current.js}, j_p = {j_current.jp}, j_n = {j_current.jn}')
+
+    ni_2 = count_ni(t=250, me=0.36, mh=0.81)**2
+    print(f'n_i^2 = {ni_2}')
+
+    p_n = count_p_n(ni2=ni_2, nc=calc_Nc(me=0.36, t=250), Ef_n=Si_n.Ef, Eg=1.12, t=250)
+    n_p = count_n_p(ni2=ni_2, nv=calc_Nv(mh=0.81, t=250), Ef_p=Si_p.Ef, t=250)
+
+    print(f'p_n = {p_n}, n_p = {n_p}')
