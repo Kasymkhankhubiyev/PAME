@@ -71,7 +71,8 @@ def find_fermi_level(me: me_effective, mh: mh_effective, Jd: float, t: Kelvin, E
 
     n = calc_n(nc=nc, Ef=Ef, Ec=Ec, t=t)
     p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
-    naneg = calc_Naneg(Na=Na, Ef=Ef, Ea=Jd - Ev, t=t)
+    naneg = calc_Naneg(Na=Na, Ef=Ef, Ea=Jd + Ev, t=t)
+    # print(n, p, naneg)
     q = count_Q(n=n, p=p, Na=naneg)
 
     if np.abs(q/(n + naneg)) < 0.0001:
@@ -79,7 +80,7 @@ def find_fermi_level(me: me_effective, mh: mh_effective, Jd: float, t: Kelvin, E
         return Result(Ef=Ef, n=convert_charges(n), p=convert_charges(p), Ndneg=convert_charges(naneg),
                       Q=q, ratio=(q/(n + naneg)), Nv=convert_charges(nv), Nc=convert_charges(nc))
     else:
-        if q < 0:
+        if q > 0:
             return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Na=Na, Efneg=Ef, Efpl=Efpl)
-        elif q > 0:
+        elif q < 0:
             return find_fermi_level(me=me, mh=mh, t=t, Jd=Jd, Ec=Ec, Ev=Ev, Na=Na, Efneg=Efneg, Efpl=Ef)
