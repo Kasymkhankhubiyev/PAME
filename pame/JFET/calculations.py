@@ -1,35 +1,58 @@
 import matplotlib.pyplot as plt
 import numpy as np
-# Ip = 0.1  # A ток отсечки
+
+from pame.constants import epsilon0, e
 
 
 def Ip(z: float, a: float, L: float, mu: float, epsilon: float, nd: float) -> float:
-    epsilon0 = 8.8e-14  # F/cm
-    e = 1.602e-19
+    """
+    :math: $\frac{z\mu e^2N_d^2a^3}{6*\epsilon\epsilon_0L}$
+
+    :param z: depth in cm
+    :param a: width in cm
+    :param L: length in cm
+    :param mu: electrons mobility cm^2/(V*sec)
+    :param epsilon: dielectric constant
+    :param nd: atoms concentration
+    :return: ток насыщения
+    """
     return z * mu * e**2 * nd**2 * a**3 / (6 * epsilon0 * epsilon * L)
 
 
 def Vp(a: float, epsilon: float, nd: float) -> float:
-    epsilon0 = 8.8e-14  # F/cm
-    e = 1.602e-19  # Culon
+    """
+    :math: $\frac{eN_d^2a^2}{2\epsilon\epsilon_0}$
+    :param a:
+    :param epsilon:
+    :param nd:
+    :return:
+    """
     return e * nd * a**2 / (2 * epsilon0 * epsilon)
 
 
 def volt_amper_characteristics(I_p: float, path, ug: np.array, vp: float) -> None:
 
     def Id(ud: float, vp: float, ug: float):
-        res = I_p * (3 * ud / vp - 2 * ((ud + ug) ** 1.5) / (vp ** 1.5) - (ug / vp) ** 1.5)
-        return res
+        return I_p * (3 * ud / vp - 2 * ((ud + ug) ** 1.5) / (vp ** 1.5) - (ug / vp) ** 1.5)
 
-    ud = np.linspace(0, vp*1.1, 1000)
+    ud = np.linspace(0, vp*1.2, 100)
 
     for i in range(len(ug)):
         Id_array = []
         for j in range(len(ud)):
-            id = Id(ud=ud[j], vp=vp, ug=ug[i])
-            Id_array.append(id)
-        plt.plot(ud, Id_array, label=f'ud={ud}')
-    # plt.legend('best')
+            # проверяем если $U_d+U_g > U_p$, ток не растет!
+            if ud[j] + ug[i] <= vp:
+                id = Id(ud=ud[j], vp=vp, ug=ug[i])
+                Id_array.append(id)
+            else:
+                Id_array.append(Id_array[j-1])
+        plt.plot(ud, Id_array, label=f'Ug={ug[i]}')
+    plt.xlabel('Ug[V]')
+    plt.ylabel('Id[A]')
+    plt.legend(fontsize=7,
+                  ncol=1,
+                  facecolor='oldlace',
+                  edgecolor='r')
     plt.savefig(path + 'volt_amper_charact')
 
 
