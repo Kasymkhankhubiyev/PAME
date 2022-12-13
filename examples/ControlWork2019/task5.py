@@ -20,5 +20,5 @@ def run():
                                                    slim_band=GaSb,
                                                    path=path)
 
-    energy_e = Model(m=0.041, u0=delta_E_c, a=ZnSe_width, b=GaSb_width).calculate_energy_levels()
-    model_heavy_d = Model(m=0.4, u0=delta_E_v, a=ZnSe_width, b=GaSb_width)
+    energy_e = Model(m=0.041, u0=delta_E_c, a=ZnSe_width, b=GaSb_width).calculate_energy_levels(method='classic_simple')
+    heavy_d = Model(m=0.4, u0=delta_E_v, a=ZnSe_width, b=GaSb_width).calculate_energy_levels(method='classic_simple')
