@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 # Ip = 0.1  # A ток отсечки
 
 
@@ -8,22 +9,26 @@ def Ip(z: float, a: float, L: float, mu: float, epsilon: float, nd: float) -> fl
     return z * mu * e**2 * nd**2 * a**3 / (6 * epsilon0 * epsilon * L)
 
 
-def volt_amper_characteristics(I_p: float, path) -> None:
+def Vp(a: float, epsilon: float, nd: float) -> float:
+    epsilon0 = 8.8e-14  # F/cm
+    e = 1.602e-19  # Culon
+    return e * nd * a**2 / (2 * epsilon0 * epsilon)
+
+
+def volt_amper_characteristics(I_p: float, path, ug: np.array, vp: float) -> None:
 
     def Id(ud: float, vp: float, ug: float):
         res = I_p * (3 * ud / vp - 2 * ((ud + ug) ** 1.5) / (vp ** 1.5) - (ug / vp) ** 1.5)
         return res
 
-    fig = plt.Figure()
-    for i in range(1, 10):
-        Id_array, vp_array = [], []
-        ud = i
-        for j in range(1, 10):
-            vp = ud*j/10
-            id = Id(ud=ud, vp=vp, ug=1.)
-            vp_array.append(vp)
+    ud = np.linspace(0, vp, 1000)
+
+    for i in range(len(ug)):
+        Id_array = []
+        for j in range(len(ud)):
+            id = Id(ud=ud[j], vp=vp, ug=ug[i])
             Id_array.append(id)
-        plt.plot(vp_array, Id_array, label=f'ud={ud}')
+        plt.plot(ud, Id_array, label=f'ud={ud}')
     # plt.legend('best')
     plt.savefig(path + 'volt_amper_charact')
 
@@ -33,6 +38,6 @@ def g_m(Ip: float, ud: float, vp: float, ug: float):
     return gm
 
 
-def g_d(ud: float, vp: float, ug: float):
+def g_d(Ip: float, ud: float, vp: float, ug: float):
     gd = Ip * (3/vp - 3 * (ud + ug)**0.5 / vp**1.5)
     return gd
