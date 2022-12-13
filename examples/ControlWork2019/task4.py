@@ -1,17 +1,11 @@
 """
-Рассчитайте разрывы зон и изобразите схематически гетероструктуру ZnSe-GaSb.
-ZnSe(a=5.67A, Eg=2.82eV, epsilon=5.9), GaSb(a=6.9A, Eg=0.73eV, epsilon=14.4)
+Полевом транзисторе Si с p-n переходом (размеры L=10мкм, z=10мкм, a=100мкм), определите напряжение и
+ток отсечки V_p, I_p, изобразите семейство ВАХ при V_g=0, V_g = V_p/2 при Nd=10^16 cm^-3
 """
-from pame.HeteroStructure.Calculation import *
+from pame.JFET.calculations import volt_amper_characteristics, Ip
 
 
-# if __name__ == 'main':
 def run():
-    GaSb = SemiCond(name='GaSb', lattice=6.9 * 10**-8, epsilon=14.4, E_g=0.73, spin_orbital_splitting=0.80)
-    ZnSe = SemiCond(name='ZnSe', lattice=5.67 * 10**-8, epsilon=5.9, E_g=2.82, spin_orbital_splitting=0.4)
-
-    path = 'examples/ControlWork2019/'
-    delta_E_c, delta_E_v = process_heterostructure(wide_band=ZnSe,
-                                                   slim_band=GaSb,
-                                                   path=path)
-
+    Si_mu_e, Si_mu_h = 0.1400, 0.0450  # m^2 V^-1 s^-1
+    ip = Ip(z=1e-5, L=1e-5, a=1e-7, mu=Si_mu_e, epsilon=11.7, nd=1e-22)
+    volt_amper_characteristics(I_p=ip, path='examples/ControlWork2019/')

@@ -16,11 +16,10 @@ def debye_length(epsilon: float, n: float, t: float) -> float:
 
 
 def w_width(delta_phi: float, semicond_epsilon: float, carrier: float) -> float:
-    epsilon0 = 1e-10
-    # e = 1  # eV  1.602e-19  # Кулон
-    e = 4.803e-10
-    return np.sqrt(semicond_epsilon * delta_phi / (2 * np.pi * e * carrier))
-    # return np.sqrt(delta_phi * 2 * epsilon0 * semicond_epsilon / (e * carrier))  # перевели в кубометр
+    epsilon0 = 8.87e-14
+    e = 1.602e-19  # Кулон
+    # return np.sqrt(semicond_epsilon * delta_phi / (2 * np.pi * e * carrier))
+    return np.sqrt(delta_phi * 2 * epsilon0 * semicond_epsilon / (e * carrier))  # перевели в кубометр
 
 
 def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
@@ -69,6 +68,12 @@ def pn_junction_w_width(delta_phi: float, epsilon: float, n0: float, p0: float, 
 
 def lambda_electron(me: float, t: float):
     return 132 * np.sqrt(1/me) / t**0.5
+
+
+def hydrogen_model_energy(epsilon: float, m: float) -> float:
+    # return e ** 4 * m / (2 * h_bar ** 2) / eps ** 2
+    pass
+
 
 def periodic_potential_solver():
     pass

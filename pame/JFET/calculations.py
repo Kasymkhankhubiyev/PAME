@@ -1,10 +1,17 @@
 import matplotlib.pyplot as plt
 # Ip = 0.1  # A ток отсечки
 
-def volt_amper_characteristics(Ip: float) -> None:
+
+def Ip(z: float, a: float, L: float, mu: float, epsilon: float, nd: float) -> float:
+    epsilon0 = 8.8e-14  # F/cm
+    e = 1.602e-19
+    return z * mu * e**2 * nd**2 * a**3 / (6 * epsilon0 * epsilon * L)
+
+
+def volt_amper_characteristics(I_p: float, path) -> None:
 
     def Id(ud: float, vp: float, ug: float):
-        res = Ip * (3*ud/vp - 2 * ((ud + ug)**1.5)/(vp**1.5) - (ug/vp)**1.5)
+        res = I_p * (3 * ud / vp - 2 * ((ud + ug) ** 1.5) / (vp ** 1.5) - (ug / vp) ** 1.5)
         return res
 
     fig = plt.Figure()
@@ -18,7 +25,7 @@ def volt_amper_characteristics(Ip: float) -> None:
             Id_array.append(id)
         plt.plot(vp_array, Id_array, label=f'ud={ud}')
     # plt.legend('best')
-    plt.savefig('volt_amper_charact')
+    plt.savefig(path + 'volt_amper_charact')
 
 
 def g_m(Ip: float, ud: float, vp: float, ug: float):
