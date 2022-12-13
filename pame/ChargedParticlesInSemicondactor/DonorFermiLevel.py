@@ -62,10 +62,6 @@ def find_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Efpl
     :return:
     """
 
-    #TODO выводить заряды в виде 1e10
-
-    # Jd = 0.05  # eV
-
     nc = calc_Nc(me, t)
     nv = calc_Nv(mh, t)
 
