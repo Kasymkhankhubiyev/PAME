@@ -2,12 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import NamedTuple
 from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_Nv, calc_Nc, calc_n, calc_p
+from pame.constants import k
 
 me_effective = float
 mh_effective = float
 Kelvin = float
-
-from fompy.units import unit
 
 
 class Current(NamedTuple):
@@ -17,40 +16,26 @@ class Current(NamedTuple):
 
 
 def count_p_n(ni2: float, nc: float, Ef_n: float, Eg: float, t: float) -> float:
-    k = 1.38e-16  # эрг/К
-    return ni2 / (nc * np.exp(Ef_n-Eg)/(k * 6.24e11 * t))
+    return ni2 / (nc * np.exp(Ef_n-Eg)/(k * t))
 
 
 def count_n_p(ni2: float, nv: float, Ef_p: float, t: float) -> float:
-    k = 1.38e-16  # эрг/К
-    return ni2 / (nv * np.exp(-Ef_p)/(k * 6.24e11 * t))
+    return ni2 / (nv * np.exp(-Ef_p)/(k * t))
 
 
 def count_ni(t: float, me: float, mh: float, Eg: float) -> float:
-
-    # Nc = 6.2 * 10**15 * t**1.5
-    # Nv = 3.5 * 10**15 * t**1.5
     Nc = calc_Nc(me=me, t=t)
     Nv = calc_Nv(mh=mh, t=t)
-    # Eg = 1.12  # eV
-    k = 1.38e-16  # эрг/К
+    # k = 1.38e-16  # эрг/К
 
-    ni = (Nc*Nv * np.exp(-1. * Eg/(2 * k * 6.24e11 * t)))**0.5
-
-    return ni
+    return (Nc*Nv * np.exp(-1. * Eg/(2 * k * t)))**0.5
 
 
 def count_pi(t: float, me: float, mh: float, Eg: float) -> float:
-    # Nc = 6.2 * 10**15 * (t ** 1.5)
-    # Nv = 3.5 * 10**15 * (t ** 1.5)
     Nc = calc_Nc(me=me, t=t)
     Nv = calc_Nv(mh=mh, t=t)
-    # Eg = 1.12  # eV
-    k = 1.38e-16  # эрг/К
-
-    pi = (Nc * Nv * np.exp(-1. * Eg / (2 * k * 6.24e11 * t)))**0.5  #10^3
-
-    return pi
+    # k = 1.38e-16  # эрг/К
+    return (Nc * Nv * np.exp(-1. * Eg / (2 * k * t)))**0.5  # 10^3
 
 
 def _count_Jp(me: float, mh: float, Na: float, Eg: float, Ef_n: float, t: float, Dp: float, Lp: float) -> float:

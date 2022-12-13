@@ -37,9 +37,6 @@ def run():
     print(f'Si_n fermi: {Si_n.Ef}, Si_p fermi: {Si_p.Ef}')
     print(f'Fermi Levels difference: {Si_n.Ef-Si_p.Ef}')
 
-    w, w_p, w_n = pn_junction_w_width(delta_phi=Si_n.Ef-Si_p.Ef, epsilon=Si_epsilon, n0=Si_Nd, p0=Si_Na, explicit=True)
-    print(f'w_p = {w_p}, w_n = {w_n}, w = {w}')
-
     print(f'Si_n: n0 = {Si_n.n}, Si_p: p0 = {Si_p.p}')
 
     w, w_p, w_n = pn_junction_w_width(delta_phi=Si_n.Ef - Si_p.Ef, epsilon=Si_epsilon,
