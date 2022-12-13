@@ -7,6 +7,8 @@ ZnSe(a=5.67A, Eg=2.82eV, epsilon=5.9), GaSb(a=6.9A, Eg=0.73eV, epsilon=14.4)
 """
 from pame.HeteroStructure.Calculation import *
 from pame.KronigPenney.model import Model
+from pame.Semiconductors.helper import laser_lambda
+from pame.ChargedParticlesInSemicondactor.CalculateParticles import convert_charges
 
 
 # if __name__ == 'main':
@@ -22,3 +24,5 @@ def run():
 
     energy_e = Model(m=0.041, u0=delta_E_c, a=ZnSe_width, b=GaSb_width).calculate_energy_levels(method='classic_simple')
     heavy_d = Model(m=0.4, u0=delta_E_v, a=ZnSe_width, b=GaSb_width).calculate_energy_levels(method='classic_simple')
+
+    print(f'lambda = {laser_lambda(delta_energy=-energy_e + heavy_d)*1e9} нм')
