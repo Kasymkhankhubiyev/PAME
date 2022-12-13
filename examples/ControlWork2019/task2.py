@@ -45,8 +45,8 @@ def run():
                                       explicit=True)
     print(f'w_p = {w_p}, w_n = {w_n}, w = {w}')
 
-    j_current = count_Js(me=0.36, mh=0.81, t=250, Nd=Si_Nd, Na=Si_Na, Dp=Si_Dp, Lp=Si_Lp, Dn=Si_Dn, Ln=Si_Ln, Eg=1.12,
-                         Ef_p=Si_p.Ef, Ef_n=Si_n.Ef)
+    j_current = count_Js(me=0.36, mh=0.81, t=250, Eg=1.12, Dn=Si_Dn, Ln=Si_Ln, Dp=Si_Dp, Lp=Si_Lp, Ef_n=Si_n.Ef,
+                         Ef_p=Si_p.Ef)
     print(f'Js = {j_current.js}, j_p = {j_current.jp}, j_n = {j_current.jn}')
 
     I = volt_amper_characteristic(js=j_current.jn, s=1e-2, path='examples/ControlWork2019/', t=250)

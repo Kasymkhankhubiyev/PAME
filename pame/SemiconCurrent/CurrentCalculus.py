@@ -105,11 +105,19 @@ def calclate_I_amper(js: float, s: float) -> float:
 
 
 def volt_amper_characteristic(js: float, s: float, t: float, path: str):
+    """
+
+    :param js: current density in A/cm^2
+    :param s: area in cm^2
+    :param t: temperature in Kelvin
+    :param path: path to a directory to save a VAC image into
+    :return: max current
+    """
     k = 1.38e-23  # J/K
     u = np.linspace(-1, 1, 1000)
     J = []
     for i in range(len(u)):
-        J.append(js * s * (np.exp(u[i]*e/(k*t)) - 1) / 1e4)
+        J.append(js * s * (np.exp(u[i]*e/(k*t)) - 1))
     plt.plot(u, J, color='blue')
     plt.savefig(path+'vac')
     return u, J
