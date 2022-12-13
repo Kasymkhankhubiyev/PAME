@@ -58,21 +58,33 @@ def calc_Naneg(Na: float, Ef: eV, Ea: eV, t: Kelvin):
 
 
 def calc_Nc(me: me_effective, t: Kelvin) -> float:  # Nparticle:
+    """
+    :math: $N_c=2(\frac{2\pi m_ckT}{h^2}^{3/2})$
+    :param me: effective mass of electron
+    :param t: temperature in Kelvin
+    :return: electrons concentration 1/cm^3
+    """
     k = 1.38e-023  # J/K
-    h = 1.054e-034  # kg * m /sec^2
+    h = 1.054e-034  # J*sec ~~ kg * m / sec
     m0 = 9.109e-031  # kg ~ 0.511MeV
 
-    Nc = 2 * ((2 * np.pi * me * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
+    Nc = 2 * ((2 * np.pi * me * m0 * k * t) / (h ** 2)) ** 1.5  # 1/m^3
     Nc /= 10**6  # 1/cm^3
     return Nc
 
 
 def calc_Nv(mh: mh_effective, t: Kelvin) -> float:  # Nparticle:
+    """
+    :math: $N_v=2(\frac{2\pi m_ckT}{h^2}^{3/2})$
+    :param me: effective mass of electron
+    :param t: temperature in Kelvin
+    :return: protons concentration 1/cm^3
+    """
     k = 1.38e-023  # J/K
     h = 1.054e-034  # kg * m /sec^2
     m0 = 9.109e-031  # kg ~ 0.511MeV
 
-    Nv = 2 * ((2 * np.pi * mh * m0 * k * t)/((2 * np.pi * h)**2)) ** 1.5  # 1/m^3
+    Nv = 2 * ((2 * np.pi * mh * m0 * k * t) / (h ** 2)) ** 1.5  # 1/m^3
     Nv /= 10 ** 6  # 1/cm^3
     return Nv
 
