@@ -27,7 +27,7 @@ def w_width(delta_phi: float, semicond_epsilon: float, carrier: float) -> float:
 
     SCR: Space Charge Region
     """
-    return np.sqrt(delta_phi * constants.eV * 2 * constants.epsilon0 * semicond_epsilon / (constants.e * carrier))
+    return np.sqrt(delta_phi * constants.eV_to_J * 2 * constants.epsilon0 * semicond_epsilon / (constants.e * carrier))
 
 
 def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
@@ -42,7 +42,7 @@ def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
     # epsilon0 = 8.8e-14  # F/cm
     # eV = 1.6e-19
     # e = 1.602e-19
-    return np.sqrt((2 * constants.epsilon0 * epsilon * p0 * delta_phi * constants.eV) /
+    return np.sqrt((2 * constants.epsilon0 * epsilon * p0 * delta_phi * constants.eV_to_J) /
                    (constants.e**2 * n0 * (n0 + p0))) / 100  # m
 
 
@@ -57,14 +57,14 @@ def pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
         """
     # epsilon0 = 8.8e-14  # F/cm
     # e = 1.602e-19
-    return np.sqrt((2 * constants.epsilon0 * epsilon * n0 * delta_phi * constants.eV) /
+    return np.sqrt((2 * constants.epsilon0 * epsilon * n0 * delta_phi * constants.eV_to_J) /
                    (constants.e**2 * p0 * (n0 + p0))) / 100  # m
 
 
 def _pn_junction_w_full(delta_phi: float, epsilon: float, n0: float, p0: float) -> float:
     # epsilon0 = 8.8e-14  # F/cm
     # e = 1.602e-19
-    return np.sqrt(2 * epsilon * constants.epsilon0 * delta_phi * constants.eV * (n0 + p0) /
+    return np.sqrt(2 * epsilon * constants.epsilon0 * delta_phi * constants.eV_to_J * (n0 + p0) /
                    (constants.e**2 * n0 * p0)) / 100  # m
 
 
