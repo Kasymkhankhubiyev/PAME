@@ -16,7 +16,7 @@ from fompy.constants import *
 def run():
     Si_me, Si_mh = 0.36, 0.81
     Jd, B_res = 0.045, 5  # Ohm*cm
-    Au_E0, Si_ksi = 4.2, 4.05  # eV
+    Al_E0, Si_ksi = 4.2, 4.05  # eV
     Si_eg, Si_p_mu = 1.12, 500  # eV, cm^2/V/sec
 
     qulon = 2997924579.99957
@@ -30,7 +30,7 @@ def run():
     Si_ef = find_fermi_level(me=Si_me, mh=Si_mh, t=300, Jd=Jd, Efpl=0.0, Efneg=0.57, Ec=1.12, Ev=0, Na=Nd).Ef
     print(Si_ef)
 
-    delta_E = (Si_ksi + Si_eg) - Au_E0  # т.к. у нас Si n-типа
+    delta_E = (Si_ksi + Si_eg) - Al_E0  # т.к. у нас Si n-типа
     if delta_E - Si_ef > 0:
         print("Инверсия")
         # в этом случае у нас будто p-n переход - можем найти ширину ОПЗ
@@ -41,6 +41,6 @@ def run():
         print(f'Ширина изгиба: {w}')
         c = 2.998e10
         volt = 1e8 / c
-        print(f'Высота барьера: {delta_phi/volt}')
+        print(f'Высота барьера: {delta_phi} eV и {delta_phi/volt} V')
     if delta_E - Si_ef <= 0:
         print("Обеднение - Уровень Ферми ушел глубоко и носителей заряда стало очень мало")
