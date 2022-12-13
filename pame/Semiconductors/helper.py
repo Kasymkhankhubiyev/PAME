@@ -1,5 +1,7 @@
 import numpy as np
 
+import pame.constants as constants
+
 
 def debye_length(epsilon: float, n: float, t: float) -> float:
     """
@@ -16,10 +18,16 @@ def debye_length(epsilon: float, n: float, t: float) -> float:
 
 
 def w_width(delta_phi: float, semicond_epsilon: float, carrier: float) -> float:
-    epsilon0 = 8.87e-14
-    e = 1.602e-19  # Кулон
-    # return np.sqrt(semicond_epsilon * delta_phi / (2 * np.pi * e * carrier))
-    return np.sqrt(delta_phi * 2 * epsilon0 * semicond_epsilon / (e * carrier))  # перевели в кубометр
+    """
+
+    :param delta_phi: band bend in eV
+    :param semicond_epsilon: dielectric constant
+    :param carrier: carrier concentration in 1/cm^3
+    :return: width of SCR in cm
+
+    SCR: Space Charge Region
+    """
+    return np.sqrt(delta_phi * constants.eV * 2 * constants.epsilon0 * semicond_epsilon / (constants.e * carrier))
 
 
 def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
@@ -31,9 +39,11 @@ def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
     :param p0: amount of protons on a valence band in a p-type
     :return: width of bend for n-type
     """
-    epsilon0 = 8.8e-14  # F/cm
-    e = 1.602e-19
-    return np.sqrt((2 * epsilon0 * epsilon * p0 * delta_phi) / (e * n0 * (n0 + p0))) / 100  # m
+    # epsilon0 = 8.8e-14  # F/cm
+    # eV = 1.6e-19
+    # e = 1.602e-19
+    return np.sqrt((2 * constants.epsilon0 * epsilon * p0 * delta_phi * constants.eV) /
+                   (constants.e**2 * n0 * (n0 + p0))) / 100  # m
 
 
 def pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
@@ -45,15 +55,17 @@ def pn_junction_w_p(delta_phi: float, epsilon: float, n0: float, p0: float):
         :param p0: amount of protons on a valence band in a p-type
         :return: width of bend for p-type
         """
-    epsilon0 = 8.8e-14  # F/cm
-    e = 1.602e-19
-    return np.sqrt((2 * epsilon0 * epsilon * n0 * delta_phi) / (e * p0 * (n0 + p0))) / 100  # m
+    # epsilon0 = 8.8e-14  # F/cm
+    # e = 1.602e-19
+    return np.sqrt((2 * constants.epsilon0 * epsilon * n0 * delta_phi * constants.eV) /
+                   (constants.e**2 * p0 * (n0 + p0))) / 100  # m
 
 
 def _pn_junction_w_full(delta_phi: float, epsilon: float, n0: float, p0: float) -> float:
-    epsilon0 = 8.8e-14  # F/cm
-    e = 1.602e-19
-    return np.sqrt(2 * epsilon * epsilon0 * delta_phi * (n0 + p0) / (e * n0 * p0)) / 100  # m
+    # epsilon0 = 8.8e-14  # F/cm
+    # e = 1.602e-19
+    return np.sqrt(2 * epsilon * constants.epsilon0 * delta_phi * constants.eV * (n0 + p0) /
+                   (constants.e**2 * n0 * p0)) / 100  # m
 
 
 def pn_junction_w_width(delta_phi: float, epsilon: float, n0: float, p0: float, explicit=False):
