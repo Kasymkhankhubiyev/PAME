@@ -3,7 +3,7 @@
 высоту барьера Шоттки. Работы выхода алюминия составляет 4.2 эВ, электронное сродство в кремнии 4.05 эВ,
 ширина запрещенной зоны 1.12 эВ. Подвижность дырок в кремнии 500 см^2/(B*c)
 """
-from pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel import find_fermi_level
+from pame.FermiLevelPinning.AcceptorFermiLevel import find_fermi_level
 from pame.Semiconductors.helper import w_width
 
 from fompy.models import *

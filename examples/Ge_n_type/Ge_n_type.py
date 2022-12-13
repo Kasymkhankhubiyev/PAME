@@ -1,7 +1,7 @@
 """
 GeSb
 """
-from pame.ChargedParticlesInSemicondactor.DonorFermiLevel import *
+from pame.FermiLevelPinning.DonorFermiLevel import *
 from pame.Semiconductors.helper import debye_length
 
 Kelvin = float

@@ -1,4 +1,4 @@
-from pame.ChargedParticlesInSemicondactor.DonorFermiLevel import *
+from pame.FermiLevelPinning.DonorFermiLevel import *
 
 if __name__ == '__main__':
     # поиск урвня Ферми для доноров

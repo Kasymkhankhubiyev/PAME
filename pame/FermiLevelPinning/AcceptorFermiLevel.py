@@ -28,7 +28,7 @@ Nd=10^17 -> статистика не вырожденная:
 
 """
 from typing import NamedTuple
-from pame.ChargedParticlesInSemicondactor.CalculateParticles import *
+from pame.FermiLevelPinning.CalculateParticles import *
 
 me_effective = float
 mh_effective = float

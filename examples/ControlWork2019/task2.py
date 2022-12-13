@@ -12,11 +12,11 @@ Na = 3*10^16 cm^-3 в p-типе определите эффективные п�
 
 из приближения водородноподобной модели находим энергии Еа и Ed
 """
-import pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel as afl
-import pame.ChargedParticlesInSemicondactor.DonorFermiLevel as dfl
+import pame.FermiLevelPinning.AcceptorFermiLevel as afl
+import pame.FermiLevelPinning.DonorFermiLevel as dfl
 from pame.Semiconductors.helper import pn_junction_w_width
 from pame.SemiconCurrent.CurrentCalculus import count_Js, volt_amper_characteristic
-from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_n, calc_p, calc_Nc, calc_Nv
+from pame.FermiLevelPinning.CalculateParticles import calc_n, calc_p, calc_Nc, calc_Nv
 
 from fompy.models import hydrogen_like_energy
 from fompy.constants import me

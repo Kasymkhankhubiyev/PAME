@@ -1,5 +1,5 @@
 # from examples.Superlattice.runfile import run
-from pame.ChargedParticlesInSemicondactor.CalculateParticles import convert_charges
+from pame.FermiLevelPinning.CalculateParticles import convert_charges
 from examples.ControlWork2019.task5 import run
 
 if __name__ == '__main__':

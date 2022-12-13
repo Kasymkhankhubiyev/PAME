@@ -1,4 +1,4 @@
-from pame.ChargedParticlesInSemicondactor.AcceptorFermiLevel import *
+from pame.FermiLevelPinning.AcceptorFermiLevel import *
 
 if __name__ == '__main__':
     # поиск урвня Ферми для акцепторов

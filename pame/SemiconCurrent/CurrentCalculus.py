@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import NamedTuple
-from pame.ChargedParticlesInSemicondactor.CalculateParticles import calc_Nv, calc_Nc, calc_n, calc_p
+from pame.FermiLevelPinning.CalculateParticles import calc_Nv, calc_Nc, calc_n, calc_p
 from pame.constants import k, e
 
 me_effective = float

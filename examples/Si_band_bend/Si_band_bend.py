@@ -1,5 +1,5 @@
 from pame.BandBend.BandBend import *
-from pame.ChargedParticlesInSemicondactor.DonorFermiLevel import find_fermi_level
+from pame.FermiLevelPinning.DonorFermiLevel import find_fermi_level
 
 
 class Semiconductor:

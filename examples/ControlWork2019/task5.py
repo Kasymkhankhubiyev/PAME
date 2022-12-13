@@ -8,7 +8,6 @@ ZnSe(a=5.67A, Eg=2.82eV, epsilon=5.9), GaSb(a=6.9A, Eg=0.73eV, epsilon=14.4)
 from pame.HeteroStructure.Calculation import *
 from pame.KronigPenney.model import Model
 from pame.Semiconductors.helper import laser_lambda
-from pame.ChargedParticlesInSemicondactor.CalculateParticles import convert_charges
 
 
 # if __name__ == 'main':
