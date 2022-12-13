@@ -1,5 +1,4 @@
 import numpy as np
-
 import pame.constants as constants
 
 
@@ -87,5 +86,10 @@ def hydrogen_model_energy(epsilon: float, m: float) -> float:
     pass
 
 
-def periodic_potential_solver():
-    pass
+def laser_lambda(delta_energy: float) -> float:
+    """
+    :math: $\lambda=\frac{hc}{\delta E}
+    :param delta_energy: difference between lowest electron energy level and highest proton level in eV
+    :return: wave length
+    """
+    return constants.h_bar * constants.c / (delta_energy * constants.eV_to_J) / 100
