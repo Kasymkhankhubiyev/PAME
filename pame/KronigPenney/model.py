@@ -95,13 +95,21 @@ class Model(object):
         methods = ['classic', 'classic_simple', 'shch', 'shch_simple']
         if method in methods:
             if method == 'classic':
-                print(f'Kronig-Penney classic model: {self._dichotomy(f=self._cp, a=-0.3, b=0, k=level)}')
+                e_level = self._dichotomy(f=self._cp, a=-0.3, b=0, k=level)
+                print(f'Kronig-Penney classic model: {e_level}')
+                return e_level
             elif method == 'classic_simple':
-                print(f'Kroning-Penney classic simple: {self._dichotomy(f=self._cp_simply, a=-0.3, b=0, k=level)}')
+                e_level = self._dichotomy(f=self._cp_simply, a=-0.3, b=0, k=level)
+                print(f'Kroning-Penney classic simple: {e_level}')
+                return e_level
             elif method == 'shch':
-                print(f'Kroning-Penney shch model: {self._dichotomy(f=self._cp_shch, a=-0.3, b=0, k=level)}')
+                e_level = self._dichotomy(f=self._cp_shch, a=-0.3, b=0, k=level)
+                print(f'Kroning-Penney shch model: {e_level}')
+                return e_level
             elif method == 'shch_simple':
-                print(f'Kroning-Penney shch simple: {self._dichotomy(f=self._cp_shch_simpy, a=-0.3, b=0, k=level)}')
+                e_level = self._dichotomy(f=self._cp_shch_simpy, a=-0.3, b=0, k=level)
+                print(f'Kroning-Penney shch simple: {e_level}')
+                return e_level
         else:
             raise CantMatchMethod(message=method, methods=methods)
 

@@ -21,7 +21,7 @@ def volt_amper_characteristics(I_p: float, path, ug: np.array, vp: float) -> Non
         res = I_p * (3 * ud / vp - 2 * ((ud + ug) ** 1.5) / (vp ** 1.5) - (ug / vp) ** 1.5)
         return res
 
-    ud = np.linspace(0, vp, 1000)
+    ud = np.linspace(0, vp*1.1, 1000)
 
     for i in range(len(ug)):
         Id_array = []
