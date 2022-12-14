@@ -18,14 +18,16 @@ def debye_length(epsilon: float, n: float, t: float) -> float:
 
 def w_width(delta_phi: float, semicond_epsilon: float, carrier: float) -> float:
     """
+    :math: $W = \sqrt{\frac{2\phi\epsilon\epsilon^0}{e^2Nd}}$
+    ~~ $[\sqrt{J * \frac{C^2}{J cm}}{C^2 cm^3}] = [cm]$
     :param delta_phi: band bend in eV
     :param semicond_epsilon: dielectric constant
     :param carrier: carrier concentration in 1/cm^3
     :return: width of SCR in cm
-
     SCR: Space Charge Region
     """
-    return np.sqrt(delta_phi * constants.eV_to_J * 2 * constants.epsilon0 * semicond_epsilon / (constants.e * carrier))
+    return np.sqrt(delta_phi * constants.eV_to_J * 2 * constants.epsilon0 * semicond_epsilon /
+                   (constants.e**2 * carrier))
 
 
 def pn_junction_w_n(delta_phi: float, epsilon: float, n0: float, p0: float):
