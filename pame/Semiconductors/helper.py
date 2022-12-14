@@ -18,7 +18,6 @@ def debye_length(epsilon: float, n: float, t: float) -> float:
 
 def w_width(delta_phi: float, semicond_epsilon: float, carrier: float) -> float:
     """
-
     :param delta_phi: band bend in eV
     :param semicond_epsilon: dielectric constant
     :param carrier: carrier concentration in 1/cm^3
@@ -81,10 +80,40 @@ def lambda_electron(me: float, t: float):
     return 132 * np.sqrt(1/me) / t**0.5
 
 
-def hydrogen_model_energy(epsilon: float, m: float) -> float:
-    # return e ** 4 * m / (2 * h_bar ** 2) / eps ** 2
-    pass
+def nd_from_mobility(ohm_cm: float, mobility: float):
+    """
+    :math: $N_d = \frac{1}{r'\mu e}$
+    :param ohm_cm:
+    :param mobility:
+    :return: carrier concentration in 1/cm^3
+    """
+    return 1 / (ohm_cm * mobility * constants.e)
 
+
+def hydrogen_model_energy(epsilon: float, m: float) -> float:
+    """
+    we know Schrodinger equation solution for Hydrogen $E_0 = \frac{me^4}{mh^2} = 13.6eV$
+    we replace $e^2 with e^{'2} = \frac{e^2}{\epsilon}$
+    and get final equation:
+    :math: $E_0^' = \frac{m^*}{\epsilon^2}*E_{0_H}$
+    :param epsilon: dielectric constant
+    :param m: effective mass of a main charge carrier
+    :return: ionization energy for donor or acceptor depending on input params in eV
+    """
+    return m / epsilon ** 2 * 13.6
+
+
+def hydrogen_model_lattice(epsilon: float, m: float) -> float:
+    """
+    we know a lattice equation (Bor equation) for Hydrogen $a_B = \frac{h^2}{me^2}=0.5 * 10^{-8}cm$
+    we replace $e^2 with e^{'2} = \frac{e^2}{\epsilon}$
+    and get final equation:
+    $a_B^' = 0.5 \frac{\epsilon}{m^'}$
+    :param epsilon: dielectric constant
+    :param m: effective mass of a main charge carrier
+    :return: a lattice for a donor or acceptor in angstrem
+    """
+    return 0.5 * epsilon / m
 
 def laser_lambda(delta_energy: float) -> float:
     """
