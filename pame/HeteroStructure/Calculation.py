@@ -35,17 +35,18 @@ def _plot_contact_zone(delta_Eg_model: float, Eg_outer: float, Eg_inner: float,
                        delta0_outer: float, delta0_inner: float, path: str) -> None:
     x = np.linspace(0, 10, 10)
     plt.plot(x, np.zeros_like(x), color='blue')
-    plt.plot(x, np.zeros_like(x) + Eg_outer, color='blue')
+    plt.plot(x, np.zeros_like(x) + Eg_outer, color='blue', label='Ec и Ev широкозонный')
     plt.plot(x, np.zeros_like(x) - delta0_outer / 3, 'r--')
     x = np.linspace(10, 20, 10)
-    plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model, color='green')
-    plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3, 'g-.')
+    plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model, 'g-.')
+    plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3, color='green',
+             label='Ec и Ev узкозонный')
     plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 + Eg_inner, color='green')
 
-    if - delta0_outer / 3 + delta_Eg_model < 0:
-        z = np.linspace(- delta0_outer / 3 + delta_Eg_model, 0, 10)
+    if - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 < 0:
+        z = np.linspace(- delta0_outer / 3 + delta_Eg_model + delta0_inner / 3, 0, 10)
     else:
-        z = np.linspace(0, - delta0_outer / 3 + delta_Eg_model, 10)
+        z = np.linspace(0, - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3, 10)
     plt.plot(np.zeros_like(z) + 10, z, color='orange')
 
     if - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 + Eg_inner < Eg_outer:
@@ -54,6 +55,10 @@ def _plot_contact_zone(delta_Eg_model: float, Eg_outer: float, Eg_inner: float,
         z = np.linspace(Eg_outer, - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 + Eg_inner, 10)
     plt.plot(np.zeros_like(z) + 10, z, color='orange')
 
+    plt.legend(fontsize=7,
+               ncol=1,
+               facecolor='oldlace',
+               edgecolor='r')
     plt.savefig(path+'model.png')
 
 
@@ -87,5 +92,5 @@ def process_heterostructure(wide_band: SemiCond, slim_band: SemiCond, path=None)
 
     delta_e_conductivity = wide_band.E_g - (0 - wide_band.spin_orbital_splitting / 3 + delta_e_g_model +
                                             slim_band.spin_orbital_splitting / 3 + slim_band.E_g)
-
-    return delta_e_conductivity, delta_e_g_model
+    delta_e_valence = delta_e_g_model + slim_band.spin_orbital_splitting/3 - wide_band.spin_orbital_splitting/3
+    return delta_e_conductivity, delta_e_valence

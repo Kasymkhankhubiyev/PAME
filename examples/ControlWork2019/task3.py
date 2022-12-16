@@ -5,6 +5,7 @@
 """
 from pame.FermiLevelPinning.AcceptorFermiLevel import find_fermi_level
 from pame.Semiconductors.helper import w_width, nd_from_mobility, pn_junction_w_width
+from pame.constants import *
 
 
 # if __name__ == 'main':
@@ -29,6 +30,6 @@ def run():
         print(f'Ширина изгиба: {w/100} м')
         c = 2.998e10
         volt = 1e8 / c
-        print(f'Высота барьера: {delta_phi} eV и {delta_phi/volt} V')
+        print(f'Высота барьера: {delta_phi} eV')
     if delta_E - Si_ef <= 0:
         print("Обеднение - Уровень Ферми ушел глубоко и носителей заряда стало очень мало")

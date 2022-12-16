@@ -114,10 +114,11 @@ def volt_amper_characteristic(js: float, s: float, t: float, path: str):
     :return: max current
     """
     k = 1.38e-23  # J/K
-    u = np.linspace(-1, 1, 1000)
+    u = np.linspace(-1, 0.1, 1000)
     J = []
     for i in range(len(u)):
         J.append(js * s * (np.exp(u[i]*e/(k*t)) - 1))
+    # plt.yscale('log')
     plt.plot(u, J, color='blue')
     plt.savefig(path+'vac')
     return u, J

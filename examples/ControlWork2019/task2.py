@@ -25,8 +25,10 @@ def run():
     Si_Nd, Si_Na = 1e16, 3e16
     Si_Dp, Si_Lp, Si_Dn, Si_Ln = 12, 2e-3, 36, 1e-2
 
-    Ea = hydrogen_model_energy(epsilon=Si_epsilon, m=0.81*m0)
-    Ed = 1.12 - hydrogen_model_energy(epsilon=Si_epsilon, m=0.36*m0)
+    Ea = hydrogen_model_energy(epsilon=Si_epsilon, m=0.81)
+    Ed = 1.12 - hydrogen_model_energy(epsilon=Si_epsilon, m=0.36)
+    print(f'Ea = {Ea}')
+    print(f'Ed = {Ed}')
 
     Si_n = dfl.find_fermi_level(me=0.36, mh=0.81, t=250, Jd=1.12-Ed, Efpl=0.57, Efneg=1.12, Ec=1.12, Ev=0, Nd=Si_Nd)
     print(f'Si_n: Nv={Si_n.Nv}, Nc={Si_n.Nc}')
