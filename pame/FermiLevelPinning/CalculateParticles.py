@@ -93,3 +93,7 @@ def convert_charges(charge: float) -> str:
     factor = round(np.log10(charge))
     body = charge / 10 ** factor
     return '{:.2f}'.format(body)+f'e{factor}'
+
+
+def count_nc_nv(m_eff: float, t: float) -> float:
+    return 2.51e19 * m_eff**1.5 * (t/300)**1.5

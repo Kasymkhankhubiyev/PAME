@@ -62,8 +62,10 @@ def find_fermi_level(me: me_effective, mh: mh_effective, Jd: float, t: Kelvin, E
     :return:
     """
 
-    nc = calc_Nc(me, t)
-    nv = calc_Nv(mh, t)
+    # nc = calc_Nc(me, t)
+    # nv = calc_Nv(mh, t)
+    nc = count_nc_nv(me, t)
+    nv = count_nc_nv(mh, t)
 
     a, b = Efpl, Efneg
 
