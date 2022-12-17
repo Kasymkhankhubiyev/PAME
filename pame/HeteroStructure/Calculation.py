@@ -41,6 +41,7 @@ def _plot_contact_zone(delta_Eg_model: float, Eg_outer: float, Eg_inner: float,
     plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model, 'g-.')
     plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3, color='green',
              label='Ec и Ev узкозонный')
+    print(f'Ev slim band { -delta0_outer / 3 + delta_Eg_model + delta0_inner / 3}')
     plt.plot(x, np.zeros_like(x) - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 + Eg_inner, color='green')
 
     if - delta0_outer / 3 + delta_Eg_model + delta0_inner / 3 < 0:
@@ -79,6 +80,7 @@ def process_heterostructure(wide_band: SemiCond, slim_band: SemiCond, path=None)
 
     print(f'delta_0_{wide_band.name} /3 = {wide_band.spin_orbital_splitting / 3}')
     print(f'delta_0_{slim_band.name} /3 = {slim_band.spin_orbital_splitting / 3}')
+
 
     print(f'{wide_band.name}_Eg: {wide_band.E_g}')
     print(f'{slim_band.name}_Eg: {slim_band.E_g}')

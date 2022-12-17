@@ -10,7 +10,7 @@ def Ip(z: float, a: float, L: float, mu: float, epsilon: float, nd: float) -> fl
 
     :param z: depth in cm
     :param a: width in cm
-    :param L: length in cm
+    :param L: channel length in cm
     :param mu: electrons mobility cm^2/(V*sec)
     :param epsilon: dielectric constant
     :param nd: atoms concentration
@@ -46,6 +46,8 @@ def volt_amper_characteristics(I_p: float, path, ug: np.array, vp: float) -> Non
                 Id_array.append(id)
             else:
                 Id_array.append(Id_array[j-1])
+        print(f'start current Vg={ug[i]}  Id = {Id_array[0]}')
+        print(f'stop current Vg ={ug[i]}, Id = {Id_array[90]}')
         plt.plot(ud, Id_array, label=f'Ug={ug[i]}')
     plt.xlabel('Ug[V]')
     plt.ylabel('Id[A]')
