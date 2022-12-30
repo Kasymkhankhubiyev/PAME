@@ -10,8 +10,7 @@ from pame.KronigPenney.model import Model
 from pame.Semiconductors.helper import laser_lambda
 
 
-# if __name__ == 'main':
-def run():
+def run() -> None:
     GaP_width, InP_width = 5e-9, 7e-9
     InP = SemiCond(name='Inp', lattice=5.86 * 10**-8, epsilon=12.5, E_g=1.34, spin_orbital_splitting=0.11)
     GaP = SemiCond(name='GaP', lattice=5.45 * 10**-8, epsilon=11, E_g=2.26, spin_orbital_splitting=0.08)

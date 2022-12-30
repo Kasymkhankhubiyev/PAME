@@ -9,7 +9,7 @@ import numpy as np
 from pame.JFET.calculations import volt_amper_characteristics, Ip, Vp
 
 
-def run():
+def run() -> None:
     Si_mu_e, Si_mu_h = 1400, 450  # m^2 V^-1 s^-1
     ip = Ip(z=1e-3, L=1e-3, a=1e-5, mu=Si_mu_e, epsilon=11.7, nd=1e16)
     vp = Vp(a=1e-5, epsilon=11.7, nd=1e16)

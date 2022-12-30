@@ -3,8 +3,7 @@
 """
 from pame.AtomsCalculation.molecule import *
 
-# if __name__ == 'main':
-def run():
+def run() -> None:
     lattice = 6.1e-8
     m_a = 193/2
     ZnTe = Molecule(a=lattice, m_a=m_a)

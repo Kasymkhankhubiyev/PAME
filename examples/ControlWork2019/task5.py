@@ -10,8 +10,7 @@ from pame.KronigPenney.model import Model
 from pame.Semiconductors.helper import laser_lambda
 
 
-# if __name__ == 'main':
-def run():
+def run() -> None:
     ZnSe_width, GaSb_width = 5e-9, 7e-9
     GaSb = SemiCond(name='GaSb', lattice=6.9 * 10**-8, epsilon=14.4, E_g=0.73, spin_orbital_splitting=0.80)
     ZnSe = SemiCond(name='ZnSe', lattice=5.67 * 10**-8, epsilon=5.9, E_g=2.82, spin_orbital_splitting=0.80)

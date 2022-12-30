@@ -17,10 +17,9 @@ import pame.FermiLevelPinning.DonorFermiLevel as dfl
 from pame.Semiconductors.helper import pn_junction_w_width, hydrogen_model_energy, w_width
 from pame.SemiconCurrent.CurrentCalculus import count_Js, volt_amper_characteristic
 from pame.FermiLevelPinning.CalculateParticles import calc_n, calc_p, calc_Nc, calc_Nv
-from pame.constants import m0
 
 
-def run():
+def run() -> None:
     Si_epsilon = 11.7
     Si_Nd, Si_Na = 1e17, 2e16
     Si_Dp, Si_Lp, Si_Dn, Si_Ln = 12, 8e-3, 36, 5e-2

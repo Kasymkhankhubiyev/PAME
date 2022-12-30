@@ -20,7 +20,7 @@ from pame.FermiLevelPinning.CalculateParticles import calc_n, calc_p, calc_Nc, c
 from pame.constants import m0
 
 
-def run():
+if __name__ == '__main__':
     Si_epsilon = 11.7
     Si_Nd, Si_Na = 1e16, 3e16
     Si_Dp, Si_Lp, Si_Dn, Si_Ln = 12, 2e-3, 36, 1e-2
