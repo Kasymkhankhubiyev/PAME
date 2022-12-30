@@ -14,6 +14,7 @@ epsilon0 = 1e-10
 Ge_epsilon = 16.2
 e = 1.602e-19  # Кулон
 
+
 if __name__ == '__main__':
     me = 0.22
     mh = 0.34

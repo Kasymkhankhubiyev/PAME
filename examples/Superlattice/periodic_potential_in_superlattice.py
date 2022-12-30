@@ -1,48 +1,8 @@
 from pame.HeteroStructure.Calculation import *
-import numpy as np
-
-from fompy.constants import eV, me
-from fompy.models import KronigPenneyModel, DiracCombModel
-from fompy.units import unit
-from math import pi
-
-import matplotlib
-import matplotlib.pyplot as plt
-from pame.HeteroStructure.Calculation import *
 from pame.KronigPenney.model import Model
 
-matplotlib.rc('axes.formatter', useoffset=False)
 
-
-def periodic_potential(u):
-    m = 0.85 * me
-    U0 = -u * eV  # '-' потенцияальная яма
-    a = 10 * unit('nm')
-    b = 5 * unit('nm')
-
-    kp_model = KronigPenneyModel(a, b, U0)
-    dc_model = DiracCombModel(a + b, a * U0)
-
-    es = np.linspace(-0.001 * eV, 0.001 * eV, 100000)
-
-    ks = kp_model.get_ks(es, m)  # Array of k * (a+b)
-    plt.plot(ks, es / eV, label='Kronig-Penney')
-
-    print(es/eV)
-
-    ks = dc_model.get_ks(es, m)
-    plt.plot(ks, es / eV, label='Dirac comb')
-
-    plt.axhline(0, color='k', linestyle='--')
-    plt.xlim(0, pi)
-    plt.xlabel("k*(a+b)")
-    plt.ylabel("Energy")
-    plt.legend()
-    plt.savefig('examples/Superlattice/potential.png')
-
-
-# if __name__ == '__main__':
-def run():
+if __name__ == '__main__':
     a_AlGaAs = (5.6533 + 0.0078 * 0.4) * 10**-8 # Lattice constant, cm
     epsilon_AlGaAs = 12.9 - 2.84 * 0.4
     E_g_AlGaAs = 1.424 + 1.247 * 0.4  # eV
@@ -69,5 +29,3 @@ def run():
 
     model = Model(m=-m_heavy_hole_GaAs, a=5, b=10, u0=-delta_u_valence)
     model.calculate_energy_levels(method='shch')
-
-    # model.find_energy_level()

@@ -1,5 +1,6 @@
 from pame.FermiLevelPinning.AcceptorFermiLevel import *
 
+
 if __name__ == '__main__':
     # поиск урвня Ферми для акцепторов
     result = find_fermi_level(me=0.36, mh=0.36, t=300, Efpl=0.0, Efneg=0.57, Ec=1.12, Ev=0, Na=1e16, Jd=0.045)
