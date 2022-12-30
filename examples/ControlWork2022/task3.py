@@ -7,7 +7,7 @@ from pame.FermiLevelPinning.DonorFermiLevel import find_fermi_level
 from pame.Semiconductors.helper import w_width, nd_from_mobility, pn_junction_w_width
 
 
-def run() -> None:
+if __name__ == '__main__':
     Si_me, Si_mh = 0.36, 0.81
     Jd, P_res = 0.05, 10  # Ohm*cm
     Ni_E0, Si_ksi = 5.1, 4.05  # eV

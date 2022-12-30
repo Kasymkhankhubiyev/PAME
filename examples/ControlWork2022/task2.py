@@ -19,7 +19,7 @@ from pame.SemiconCurrent.CurrentCalculus import count_Js, volt_amper_characteris
 from pame.FermiLevelPinning.CalculateParticles import calc_n, calc_p, calc_Nc, calc_Nv
 
 
-def run() -> None:
+if __name__ == '__main__':
     Si_epsilon = 11.7
     Si_Nd, Si_Na = 1e17, 2e16
     Si_Dp, Si_Lp, Si_Dn, Si_Ln = 12, 8e-3, 36, 5e-2

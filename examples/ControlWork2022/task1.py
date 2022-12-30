@@ -4,7 +4,7 @@
 from pame.AtomsCalculation.molecule import *
 
 
-def run() -> None:
+if __name__ == '__main__':
     lattice = 6.479e-8  # cm
     molar = 236.578 / 2  # g/mole
     InSb = Molecule(a=lattice, m_a=molar)

@@ -8,7 +8,7 @@ from pame.Semiconductors.helper import w_width, nd_from_mobility, pn_junction_w_
 from pame.constants import *
 
 
-def run() -> None:
+if __name__ == '__main__':
     Si_me, Si_mh = 0.36, 0.81
     Jd, B_res = 0.045, 5  # Ohm*cm
     Al_E0, Si_ksi = 4.2, 4.05  # eV
