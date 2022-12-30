@@ -211,7 +211,7 @@ def fermi_methods() -> list:
 
 
 def calculate_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV, Ef0: eV, Ec: eV,
-                          Nd: float, result_format='xey', method='dichotomy', Ev=0., tolerance=1e-7,
+                          Nd: float, result_format='numeric', method='dichotomy', Ev=0., tolerance=1e-7,
                           Ef1=None, delta=1e-3) -> tuple:
     """
     :param result_format:
@@ -235,7 +235,7 @@ def calculate_fermi_level(me: me_effective, mh: mh_effective, t: Kelvin, Jd: eV,
     try:
         if method == 'dichotomy':
             if Ef1 is not None and Ef1 > Ef0:
-                result= _dichotomy_method(nc=nc, nv=nv, t=t, Jd=Jd, Ef_low=Ef0, Ef_upper=Ef1,
+                result = _dichotomy_method(nc=nc, nv=nv, t=t, Jd=Jd, Ef_low=Ef0, Ef_upper=Ef1,
                                                          Ec=Ec, Ev=Ev, Nd=Nd, tolerance=tolerance)
             else:
                 raise CantRunDichotomyMethod(phi0=Ef0, phi1=Ef1)
