@@ -75,7 +75,7 @@ def find_fermi_level(me: me_effective, mh: mh_effective, Jd: float, t: Kelvin, E
     p = calc_p(nv=nv, Ef=Ef, Ev=Ev, t=t)
     naneg = calc_Naneg(Na=Na, Ef=Ef, Ea=Jd + Ev, t=t)
     # print(n, p, naneg)
-    q = count_Q(n=n, p=p, Na=naneg)
+    q = count_Q(n=n, p=p, Naneg=naneg)
 
     if np.abs(q/(n + naneg)) < 0.0001:
         # print(f'Na={Na}     nc={nv}')

@@ -195,8 +195,25 @@ def bend_methods() -> list:
     return ['dichotomy', 'newtown', 'fixed-point', 'secant']
 
 
-def calculate_band_bend(epsilon: float, Nd: float, t: float, Nas: float, Eas: float, Eout: float, method: str,
-                        Ef: float, phi0: float, tolerance=1e-7, phi1=None, delta=1e-3) -> tuple:
+def calculate_band_bend(epsilon: float, Nd: float, t: float, Nas: float, Eas: float, Eout: float,
+                        Ef: float, phi0: float, method='dichotomy', tolerance=1e-7, phi1=None, delta=1e-3) -> tuple:
+    """
+    Calculates band bend. On default runs through the dichotomy method
+
+    :param epsilon: dielectric constant
+    :param Nd: donors concentration
+    :param t: temperature
+    :param Nas: acceptors concentration
+    :param Eas: acceptors energy level
+    :param Eout: outer electric field
+    :param Ef: fermi level
+    :param phi0: bend in eV
+    :param method: method to use
+    :param tolerance: min error to end calculation
+    :param phi1: bend in eV
+    :param delta: stater bend difference used only for the secant method
+    :return: band bend magnitude in eV and iteration number needed to calculate
+    """
 
     methods = ['dichotomy', 'newtown', 'fixed-point', 'secant']
     bend, counter = None, 0

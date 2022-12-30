@@ -8,18 +8,18 @@ Nd = float
 eV = float
 
 
-def count_Q(n: float, p: float, Nd=None, Na=None) -> float:
+def count_Q(n: float, p: float, Ndpl=None, Naneg=None) -> float:
     """
     :param n: кол-во негативных носителей
     :param p: кол-во положительных носителей
-    :param Nd: кол-во ионизированных атомов
+    :param Ndpl: кол-во ионизированных атомов
     :return: Q - заряд полупроводника
     """
 
-    if Nd is not None:
-        return n - p - Nd
-    if Na is not None:
-        return n + Na - p
+    if Ndpl is not None:
+        return n - p - Ndpl
+    if Naneg is not None:
+        return n + Naneg - p
 
 
 def calc_n(nc: float, Ef: float, Ec: float, t: Kelvin) -> float:  # Nparticle:
@@ -97,3 +97,53 @@ def convert_charges(charge: float) -> str:
 
 def count_nc_nv(m_eff: float, t: float) -> float:
     return 2.51e19 * m_eff**1.5 * (t/300)**1.5
+
+
+def balance_function(nc: float, nv: float, nd: float, t: Kelvin, e_f: eV, e_c: eV, e_v: eV, e_d: eV) -> float:
+    """
+    :math: $Q=n - (N_d^+ + p)$
+    :math: $Q = N_c \factor exp(\frac{E_f - E_c}{kT}) - N_v \factor exp(\frac{E_v-E_f}{kT}) - N_d \factor
+            \frac{1}{1+0.5exp(\frac{E_f - E_d}{kT})}$
+    :param nc: concentration of electrons
+    :param nv: concentration of holes
+    :param nd: concentration of donors
+    :param t: temperature in Kelvin
+    :param e_f: Fermi energy level in eV
+    :param e_c: Conduction band energy level in eV
+    :param e_v: Valence band energy level in eV
+    :param e_d: Ionization energy in eV
+    :return: difference in positively and negatively charged particles number
+    """
+    k = 1.38e-16  # эрг/К
+
+    n = nc * np.exp((e_f - e_c) / (k * 6.24e11 * t))
+    p = nv * np.exp((e_v - e_f) / (k * 6.24e11 * t))
+    nd_plus = nd / (1. + 0.5 * np.exp((e_f - e_d) / (k * 6.24e11 * t)))
+    Q = n - nd_plus - p
+    return Q/(p + nd_plus)
+
+
+def diff_balance_function(nc: float, nv: float, nd: float, t: Kelvin, e_f: eV, e_c: eV, e_v: eV, e_d: eV) -> float:
+    """
+    $\frac{Q}{p + N_d^+}$
+    :param nc: concentration of electrons
+    :param nv: concentration of holes
+    :param nd: concentration of donors
+    :param t: temperature in Kelvin
+    :param e_f: Fermi energy level in eV
+    :param e_c: Conduction band energy level in eV
+    :param e_v: Valence band energy level in eV
+    :param e_d: Ionized Donors energy level in eV
+    :return: differential of difference in positively and
+             negatively charged particles number for a specific fermi level
+    """
+    k = 1.38e-16  # эрг/К
+    n = nc * np.exp((e_f - e_c) / (k * 6.24e11 * t))
+    p = nv * np.exp((e_v - e_f) / (k * 6.24e11 * t))
+    nd_plus = nd / (1. + 0.5 * np.exp((e_f - e_d) / (k * 6.24e11 * t)))
+    dn = nc * np.exp((e_f - e_c) / (k * 6.24e11 * t)) / (k * 6.24e11 * t)
+    dp = -nv * np.exp((e_v - e_f) / (k * 6.24e11 * t)) / (k * 6.24e11 * t)
+    dnd_plus = - nd / (1. + 0.5 * np.exp((e_f - e_d) / (k * 6.24e11 * t))) ** 2 * \
+               0.5 * np.exp((e_f - e_d) / (k * 6.24e11 * t)) / (k * 6.24e11 * t)
+
+    return (dn*(p + nd_plus) - (dp + dnd_plus)*n)/(p + nd_plus)**2

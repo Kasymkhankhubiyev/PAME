@@ -20,3 +20,11 @@ class CatchZeroDelta(Exception):
         super().__init__(
             f'Delta cannot be equal zero'
         )
+
+
+class CannotMatchResultFormat(Exception):
+    def __init__(self, available_formats):
+        super().__init__(
+            f'cannot math format.\n'
+            f'choose one from {available_formats}'
+        )
